@@ -18,6 +18,7 @@ namespace PR_01
         private string myFile;
 
         private Tablas tabla = new Tablas();
+        private Metodos metodos = new Metodos();
         
         public Form1(string filename)
         {
@@ -148,7 +149,9 @@ namespace PR_01
                     }
                     else 
                     {
-                        tabla.Simbolos.Add(
+                        if (metodos.validarIdentificadorCompleto(temp[j]))
+                        {
+                            tabla.Simbolos.Add(
                             new Simbolo()
                             {
                                 Token = "Identificador",
@@ -158,9 +161,16 @@ namespace PR_01
                             }
 
                             );
-                       
-                        rtxt_codigo.Select(cont, temp[j].Length);
-                        rtxt_codigo.SelectionColor = Color.DeepPink;
+
+                            rtxt_codigo.Select(cont, temp[j].Length);
+                            rtxt_codigo.SelectionColor = Color.DeepPink;
+                        }
+                        else 
+                        {
+                            rtxt_codigo.Select(cont, temp[j].Length);
+                            rtxt_codigo.SelectionColor = Color.Red;
+                        }
+                        
 
                     }
 

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace PR_01
 {
-    class Metodos
+    public class Metodos
     {
-        public static bool validarIdentificador(string palabra)
+        public bool validarIdentificador(string palabra)
         {
             var regex = @"^[A-Z|a-z]([A-Z|a-z|0-9|\-|_])*$";
             var match = Regex.Match(palabra, regex, RegexOptions.IgnoreCase);
@@ -18,7 +18,7 @@ namespace PR_01
 
         }
 
-        public static bool validarSigno(string palabra)
+        public bool validarSigno(string palabra)
         {
             var regex = @"^[\;|\:|\{|\}|\[|\]|>|<|=|+|\-|*|%|\\|,|""|/|.|!|']$|^<=$|^>=$|^->$|^\+\+$";
 
@@ -26,6 +26,26 @@ namespace PR_01
 
             return match.Success;
 
+        }
+        public bool validarNumerosString(string palabra)
+        {
+            var regex = @"^""[^""|*]*""$|^[0-9]*$|^[0-9]*.[0-9][0-9]*$";
+            var match = Regex.Match(palabra, regex, RegexOptions.IgnoreCase);
+
+            return match.Success;
+
+        }
+
+        public bool validarIdentificadorCompleto(string palabra) 
+        {
+            var regex = @"^[A-Z|a-z]([A-Z|a-z|0-9|\-|_])*$|^[\;|\:|\{|\}|\[|\]|>|<|=|+|\-|*|%|\\|,|""|/|.|!|']$|^<=$|^>=$|^->$|^\+\+$|^""[^""|*]*""$|^[0-9]*$|^[0-9]*.[0-9][0-9]*$";
+            var match = Regex.Match(palabra, regex, RegexOptions.IgnoreCase);
+
+            return match.Success;
+        }
+        public bool simbolosLateralesPalabrasReservadas(string palabra) 
+        {
+            throw new Exception("Aun ni implementaste este metodo bro xdxd");
         }
     }
 }
