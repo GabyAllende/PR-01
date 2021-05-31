@@ -46,7 +46,8 @@ namespace PR_01
             if (LocRes == DialogResult.OK)
             {
                 file = saver.FileName + ".bros";
-                System.IO.File.WriteAllLines(file, null);
+                string[] temp = { "" }; 
+                System.IO.File.WriteAllLines(file, temp);
                 Form1 myForm1 = new Form1(file);
                 myForm1.ShowDialog();
             }

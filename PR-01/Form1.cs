@@ -23,6 +23,8 @@ namespace PR_01
             this.contents = System.IO.File.ReadAllLines(this.myFile);
             InitializeComponent();
             rtxt_codigo.Lines = contents;
+            lb_numbers.Font = new Font(rtxt_codigo.Font.FontFamily, rtxt_codigo.Font.Size);
+            updateNumberLabel();
         }
         
       
@@ -30,13 +32,6 @@ namespace PR_01
         {
 
         }
-
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
-            contents = rtxt_codigo.Lines;
-        }
-
-       
 
       
 
@@ -49,7 +44,71 @@ namespace PR_01
 
         }
 
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void updateNumberLabel()
+        {
+            
+            //we get index of first visible char and number of first visible line
+            Point pos = new Point(0, 0);
+            int firstIndex = rtxt_codigo.GetCharIndexFromPosition(pos);
+            int firstLine = rtxt_codigo.GetLineFromCharIndex(firstIndex);
+
+            //now we get index of last visible char and number of last visible line
+            pos.X = ClientRectangle.Width;
+            pos.Y = ClientRectangle.Height;
+            int lastIndex = rtxt_codigo.GetCharIndexFromPosition(pos);
+            int lastLine = rtxt_codigo.GetLineFromCharIndex(lastIndex);
+
+            //this is point position of last visible char, we'll use its Y value for calculating numberLabel size
+            pos = rtxt_codigo.GetPositionFromCharIndex(lastIndex);
+            
+
+            //finally, renumber label
+            lb_numbers.Text = "";
+            
+            for (int i = firstLine; i <= lastLine + 1; i++)
+            {
+                lb_numbers.Text += i + 1 + "\n";
+            }
+
+        }
+
+        private void rtxt_codigo_Resize(object sender, EventArgs e)
+        {
+            rtxt_codigo_VScroll(null, null);
+        }
+
+        private void rtxt_codigo_VScroll(object sender, EventArgs e)
+        {
+            //move location of numberLabel for amount of pixels caused by scrollbar
+            int d = rtxt_codigo.GetPositionFromCharIndex(0).Y % (rtxt_codigo.Font.Height + 1);
+            lb_numbers.Location = new Point(0, d);
+
+            updateNumberLabel();
+        }
+
+        private void rtxt_codigo_FontChanged(object sender, EventArgs e)
+        {
+            updateNumberLabel();
+            rtxt_codigo_VScroll(null, null);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rtxt_codigo_TextChanged(object sender, EventArgs e)
+        {
+            contents = rtxt_codigo.Lines;
+            updateNumberLabel();
+        }
+
+        private void print_Click(object sender, EventArgs e)
         {
 
         }
