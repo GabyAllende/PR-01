@@ -117,11 +117,12 @@ namespace PR_01
 
         private void btn_run_Click(object sender, EventArgs e)
         {
+            tabla.Simbolos.Clear();
             int cont = 0;
             for (int i  = 0; i< contents.Length; i++) 
             {
                 string[] temp = contents[i].Split(' ');
-                Color[] color = new Color[temp.Length];
+                //Color[] color = new Color[temp.Length];
                 
                 
                 for (int j = 0; j < temp.Length; j++) 
@@ -168,7 +169,7 @@ namespace PR_01
             }
             
             txt_simbolos.Lines = tabla.StringArraySimbolos();
-            //rtxt_codigo.= Color.Black;
+           
 
 
         }
