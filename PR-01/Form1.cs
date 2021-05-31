@@ -16,6 +16,8 @@ namespace PR_01
         
         private string[] contents;
         private string myFile;
+
+        private Tablas tabla = new Tablas();
         
         public Form1(string filename)
         {
@@ -110,6 +112,64 @@ namespace PR_01
 
         private void print_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void btn_run_Click(object sender, EventArgs e)
+        {
+            int cont = 0;
+            for (int i  = 0; i< contents.Length; i++) 
+            {
+                string[] temp = contents[i].Split(' ');
+                Color[] color = new Color[temp.Length];
+                
+                
+                for (int j = 0; j < temp.Length; j++) 
+                {
+                    
+
+                    if (tabla.Reservadas.Contains(temp[j]))
+                    {
+                        tabla.Simbolos.Add(
+                            new Simbolo()
+                            {
+                                Token = temp[j],
+                                Lexema = temp[j],
+                                Fila = i,
+                                Columna = j
+                            }
+
+                            );
+                        
+                        rtxt_codigo.Select(cont, temp[j].Length);
+                        rtxt_codigo.SelectionColor = Color.Indigo;
+
+                    }
+                    else 
+                    {
+                        tabla.Simbolos.Add(
+                            new Simbolo()
+                            {
+                                Token = "Identificador",
+                                Lexema = temp[j],
+                                Fila = i,
+                                Columna = j
+                            }
+
+                            );
+                       
+                        rtxt_codigo.Select(cont, temp[j].Length);
+                        rtxt_codigo.SelectionColor = Color.DeepPink;
+
+                    }
+
+                    cont += temp[j].Length+1;
+                }
+            }
+            
+            txt_simbolos.Lines = tabla.StringArraySimbolos();
+            //rtxt_codigo.= Color.Black;
+
 
         }
     }

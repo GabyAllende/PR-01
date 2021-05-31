@@ -36,6 +36,8 @@ namespace PR_01
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.lb_numbers = new System.Windows.Forms.Label();
             this.print = new System.Windows.Forms.Label();
+            this.btn_run = new System.Windows.Forms.Button();
+            this.txt_simbolos = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -62,7 +64,7 @@ namespace PR_01
             this.rtxt_codigo.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtxt_codigo.Location = new System.Drawing.Point(3, 0);
             this.rtxt_codigo.Name = "rtxt_codigo";
-            this.rtxt_codigo.Size = new System.Drawing.Size(798, 444);
+            this.rtxt_codigo.Size = new System.Drawing.Size(634, 444);
             this.rtxt_codigo.TabIndex = 9;
             this.rtxt_codigo.Text = "";
             this.rtxt_codigo.VScroll += new System.EventHandler(this.rtxt_codigo_VScroll);
@@ -83,8 +85,8 @@ namespace PR_01
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.rtxt_codigo);
-            this.splitContainer1.Size = new System.Drawing.Size(863, 441);
-            this.splitContainer1.SplitterDistance = 55;
+            this.splitContainer1.Size = new System.Drawing.Size(647, 444);
+            this.splitContainer1.SplitterDistance = 41;
             this.splitContainer1.TabIndex = 10;
             // 
             // lb_numbers
@@ -106,11 +108,31 @@ namespace PR_01
             this.print.Text = "PRINT";
             this.print.Click += new System.EventHandler(this.print_Click);
             // 
+            // btn_run
+            // 
+            this.btn_run.Location = new System.Drawing.Point(732, 478);
+            this.btn_run.Name = "btn_run";
+            this.btn_run.Size = new System.Drawing.Size(75, 23);
+            this.btn_run.TabIndex = 12;
+            this.btn_run.Text = "Run";
+            this.btn_run.UseVisualStyleBackColor = true;
+            this.btn_run.Click += new System.EventHandler(this.btn_run_Click);
+            // 
+            // txt_simbolos
+            // 
+            this.txt_simbolos.Location = new System.Drawing.Point(687, 34);
+            this.txt_simbolos.Multiline = true;
+            this.txt_simbolos.Name = "txt_simbolos";
+            this.txt_simbolos.Size = new System.Drawing.Size(201, 434);
+            this.txt_simbolos.TabIndex = 13;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(900, 502);
+            this.Controls.Add(this.txt_simbolos);
+            this.Controls.Add(this.btn_run);
             this.Controls.Add(this.print);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.btn_save);
@@ -138,6 +160,8 @@ namespace PR_01
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Label lb_numbers;
         private System.Windows.Forms.Label print;
+        private System.Windows.Forms.Button btn_run;
+        private System.Windows.Forms.TextBox txt_simbolos;
     }
 }
 
