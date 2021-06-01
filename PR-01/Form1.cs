@@ -131,6 +131,11 @@ namespace PR_01
                     Console.WriteLine($"La fila {i + 1} es SALTO DE LINEA");
                     cont += 1;
                 }
+                if (contents[i].Contains("\t")) 
+                {
+                    Console.WriteLine($"La fila {i + 1} es TAB");
+                    cont += 1;
+                }
 
                 for (int j = 0; j < temp.Length; j++)
                 {
