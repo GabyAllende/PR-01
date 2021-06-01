@@ -11,16 +11,16 @@ using System.Windows.Forms;
 
 namespace PR_01
 {
-    public partial class Form1 : Form
+    public partial class Notepad : Form
     {
-        
+
         private string[] contents;
         private string myFile;
 
         private Tablas tabla = new Tablas();
         private Metodos metodos = new Metodos();
-        
-        public Form1(string filename)
+
+        public Notepad(string filename)
         {
             this.myFile = filename;
             this.contents = System.IO.File.ReadAllLines(this.myFile);
@@ -29,21 +29,21 @@ namespace PR_01
             lb_numbers.Font = new Font(rtxt_codigo.Font.FontFamily, rtxt_codigo.Font.Size);
             updateNumberLabel();
         }
-        
-      
+
+
         private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
 
         }
 
-      
+
 
         private void btn_save_Click_1(object sender, EventArgs e)
         {
-           
+
             System.IO.File.WriteAllLines(this.myFile, this.contents);
             MessageBox.Show("Se guardaron los cambios correctamente", "GUARDADO CORRECTAMENTE", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            
+
 
         }
 
@@ -54,7 +54,7 @@ namespace PR_01
 
         private void updateNumberLabel()
         {
-            
+
             //we get index of first visible char and number of first visible line
             Point pos = new Point(0, 0);
             int firstIndex = rtxt_codigo.GetCharIndexFromPosition(pos);
@@ -68,11 +68,11 @@ namespace PR_01
 
             //this is point position of last visible char, we'll use its Y value for calculating numberLabel size
             pos = rtxt_codigo.GetPositionFromCharIndex(lastIndex);
-            
+
 
             //finally, renumber label
             lb_numbers.Text = "";
-            
+
             for (int i = firstLine; i <= lastLine + 1; i++)
             {
                 lb_numbers.Text += i + 1 + "\n";
@@ -120,68 +120,141 @@ namespace PR_01
         {
             tabla.Simbolos.Clear();
             int cont = 0;
-            for (int i  = 0; i< contents.Length; i++) 
+            for (int i = 0; i < contents.Length; i++)
             {
-                string[] temp = contents[i].Split(' ');
-                //Color[] color = new Color[temp.Length];
-                
-                
-                for (int j = 0; j < temp.Length; j++) 
+                //string[] temp = contents[i].Split(' ');
+                string[] temp = metodos.SepararLineas(contents[i]);
+                Console.WriteLine($"Fila {i+1}:");
+                Console.WriteLine("[{0}]", string.Join(",", temp));
+
+
+                for (int j = 0; j < temp.Length; j++)
                 {
-                    
-
-                    if (tabla.Reservadas.Contains(temp[j]))
+                    if (!string.IsNullOrEmpty(temp[j]) && !string.IsNullOrWhiteSpace(temp[j]))
                     {
-                        tabla.Simbolos.Add(
-                            new Simbolo()
-                            {
-                                Token = temp[j],
-                                Lexema = temp[j],
-                                Fila = i,
-                                Columna = j
-                            }
-
-                            );
-                        
-                        rtxt_codigo.Select(cont, temp[j].Length);
-                        rtxt_codigo.SelectionColor = Color.Indigo;
-
-                    }
-                    else 
-                    {
-                        if (metodos.validarIdentificadorCompleto(temp[j]))
+                        if (tabla.Reservadas.Contains(temp[j]))
                         {
                             tabla.Simbolos.Add(
-                            new Simbolo()
+                                new Simbolo()
+                                {
+                                    Token = temp[j],
+                                    Lexema = temp[j],
+                                    Fila = i+1,
+                                    Columna = j+1
+                                }
+
+                                );
+
+                            rtxt_codigo.Select(cont, temp[j].Length);
+                            rtxt_codigo.SelectionColor = Color.SpringGreen;
+
+                        }
+                        else
+                        {
+                            if (metodos.validarIdentificadorCompleto(temp[j]))
                             {
-                                Token = "Identificador",
-                                Lexema = temp[j],
-                                Fila = i,
-                                Columna = j
+
+
+                                if (metodos.validarSigno(temp[j]))
+                                {
+                                    tabla.Simbolos.Add(
+                                    new Simbolo()
+                                    {
+                                        Token = temp[j],
+                                        Lexema = temp[j],
+                                        Fila = i+1,
+                                        Columna = j+1
+                                    }
+
+                                    );
+                                }
+                                else if (metodos.validarNumeros(temp[j]))
+                                {
+                                    tabla.Simbolos.Add(
+                                    new Simbolo()
+                                    {
+                                        Token = "Numeros",
+                                        Lexema = temp[j],
+                                        Fila = i + 1,
+                                        Columna = j + 1
+                                    }
+
+                                    );
+
+                                }
+                                else if (metodos.validarChar(temp[j]))
+                                {
+                                    tabla.Simbolos.Add(
+                                    new Simbolo()
+                                    {
+                                        Token = "Crash",
+                                        Lexema = temp[j],
+                                        Fila = i + 1,
+                                        Columna = j + 1
+                                    }
+
+                                    );
+
+                                }
+                                else if (metodos.validarString(temp[j]))
+                                {
+                                    tabla.Simbolos.Add(
+                                    new Simbolo()
+                                    {
+                                        Token = "Sting",
+                                        Lexema = temp[j],
+                                        Fila = i + 1,
+                                        Columna = j + 1
+                                    }
+
+                                    );
+
+                                }
+                                else 
+                                {
+                                    tabla.Simbolos.Add(
+                                    new Simbolo()
+                                    {
+                                        Token = "Identificador",
+                                        Lexema = temp[j],
+                                        Fila = i+1,
+                                        Columna = j+1
+                                    }
+
+                                    );
+                                }
+
+                                rtxt_codigo.Select(cont, temp[j].Length);
+                                rtxt_codigo.SelectionColor = Color.Gold;
+                            }
+                            else
+                            {
+                                tabla.Simbolos.Add(
+                                new Simbolo()
+                                {
+                                    Token = "Identificador",
+                                    Lexema = temp[j],
+                                    Fila = i+1,
+                                    Columna = j+1,
+                                    Error = true
+                                }
+
+                                );
+                                rtxt_codigo.Select(cont, temp[j].Length);
+                                rtxt_codigo.SelectionColor = Color.Red;
                             }
 
-                            );
 
-                            rtxt_codigo.Select(cont, temp[j].Length);
-                            rtxt_codigo.SelectionColor = Color.DeepPink;
                         }
-                        else 
-                        {
-                            rtxt_codigo.Select(cont, temp[j].Length);
-                            rtxt_codigo.SelectionColor = Color.Red;
-                        }
-                        
-
                     }
 
-                    cont += temp[j].Length+1;
+
+
+                    cont += temp[j].Length + 1;
                 }
             }
-            
+
             txt_simbolos.Lines = tabla.StringArraySimbolos();
-           
-
-
         }
     }
 }
