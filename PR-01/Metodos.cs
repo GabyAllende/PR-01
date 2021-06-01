@@ -29,7 +29,7 @@ namespace PR_01
         }
         public bool validarNumerosString(string palabra)
         {
-            var regex = @"^""[^""|*]*""$|^[0-9]*$|^[0-9]*.[0-9][0-9]*$|^'.'$";
+            var regex = @"^""[^""|*]*""$|^\-?[0-9]*$|^\-?[0-9]*.[0-9][0-9]*$|^'.'$";
             var match = Regex.Match(palabra, regex, RegexOptions.IgnoreCase);
 
             return match.Success;
@@ -46,7 +46,7 @@ namespace PR_01
 
         public bool validarNumeros(string palabra)
         {
-            var regex = @"^[0-9]*$|^[0-9]*.[0-9][0-9]*$";
+            var regex = @"^\-?[0-9]*$|^\-?[0-9]*.[0-9][0-9]*$";
             var match = Regex.Match(palabra, regex, RegexOptions.IgnoreCase);
 
             return match.Success;
@@ -63,7 +63,7 @@ namespace PR_01
 
         public bool validarIdentificadorCompleto(string palabra) 
         {
-            var regex = @"^[A-Z|a-z]([A-Z|a-z|0-9|\-|_])*$|^[\;|\:|\{|\}|\[|\]|>|<|=|+|\-|*|%|\\|,|""|/|.|!|']$|^<=$|^>=$|^->$|^\+\+$|^""[^""|*]*""$|^[0-9]*$|^[0-9]*.[0-9][0-9]*$|^'.'$";
+            var regex = @"^[A-Z|a-z]([A-Z|a-z|0-9|\-|_])*$|^[\;|\:|\{|\}|\[|\]|>|<|=|+|\-|*|%|\\|,|""|/|.|!|']$|^<=$|^>=$|^->$|^\+\+$|^""[^""|*]*""$|^\-?[0-9]*$|^\-?[0-9]*.[0-9][0-9]*$|^'.'$";
             var match = Regex.Match(palabra, regex, RegexOptions.IgnoreCase);
 
             return match.Success;
