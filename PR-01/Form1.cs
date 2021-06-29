@@ -123,7 +123,8 @@ namespace PR_01
             for (int i = 0; i < contents.Length; i++)
             {
                 //string[] temp = contents[i].Split(' ');
-                string[] temp = metodos.SepararLineas(contents[i]);
+                //string[] temp = metodos.SepararLineas(contents[i]);
+                string[] temp = metodos.charByChar2(contents[i]);
                 Console.WriteLine($"Fila {i+1}:");
                 Console.WriteLine("[{0}]", string.Join(",", temp));
 
