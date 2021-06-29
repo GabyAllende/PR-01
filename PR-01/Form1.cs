@@ -127,10 +127,20 @@ namespace PR_01
                 string[] temp = metodos.charByChar2(contents[i]);
                 Console.WriteLine($"Fila {i+1}:");
                 Console.WriteLine("[{0}]", string.Join(",", temp));
-
+                if (string.IsNullOrEmpty(contents[i]) || contents[i] == string.Empty || contents[i] == null || contents[i] == "\n" || contents[i] == "\n\r")
+                {
+                    Console.WriteLine($"La fila {i + 1} es SALTO DE LINEA");
+                    cont += 1;
+                }
+                if (contents[i].Contains("\t")) 
+                {
+                    Console.WriteLine($"La fila {i + 1} es TAB");
+                    cont += 1;
+                }
 
                 for (int j = 0; j < temp.Length; j++)
                 {
+                    
                     if (!string.IsNullOrEmpty(temp[j]) && !string.IsNullOrWhiteSpace(temp[j]))
                     {
                         if (tabla.Reservadas.Contains(temp[j]))
@@ -140,8 +150,8 @@ namespace PR_01
                                 {
                                     Token = temp[j],
                                     Lexema = temp[j],
-                                    Fila = i+1,
-                                    Columna = j+1
+                                    Fila = i + 1,
+                                    Columna = j + 1
                                 }
 
                                 );
@@ -163,8 +173,8 @@ namespace PR_01
                                     {
                                         Token = temp[j],
                                         Lexema = temp[j],
-                                        Fila = i+1,
-                                        Columna = j+1
+                                        Fila = i + 1,
+                                        Columna = j + 1
                                     }
 
                                     );
@@ -211,15 +221,15 @@ namespace PR_01
                                     );
 
                                 }
-                                else 
+                                else
                                 {
                                     tabla.Simbolos.Add(
                                     new Simbolo()
                                     {
                                         Token = "Identificador",
                                         Lexema = temp[j],
-                                        Fila = i+1,
-                                        Columna = j+1
+                                        Fila = i + 1,
+                                        Columna = j + 1
                                     }
 
                                     );
@@ -235,8 +245,8 @@ namespace PR_01
                                 {
                                     Token = "Identificador",
                                     Lexema = temp[j],
-                                    Fila = i+1,
-                                    Columna = j+1,
+                                    Fila = i + 1,
+                                    Columna = j + 1,
                                     Error = true
                                 }
 
@@ -247,11 +257,16 @@ namespace PR_01
 
 
                         }
+
+
+                        
+
                     }
-
-
-
                     cont += temp[j].Length + 1;
+
+
+
+
                 }
             }
 
