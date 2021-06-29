@@ -126,10 +126,10 @@ namespace PR_01
         public string[] charByChar2(string row)
         {
             int tam = row.Length;
-            row = Regex.Replace(row, @"\s+", " ");
+            //row = Regex.Replace(row, @"\s+", " ");
 
             //taking out space from the end
-            row = row.TrimEnd();
+            //row = row.TrimEnd();
 
             int j = 0;
             int i = 0;
@@ -141,11 +141,13 @@ namespace PR_01
 
             string a = "";
             string b = "";
-
+            string b_aux = "a";
             List<string> simbolos = new List<string>();
 
 
-
+            bool principio = true;
+            bool final = false;
+            bool enMedio = false;
 
             while (i < row.Length)
             {
@@ -160,15 +162,24 @@ namespace PR_01
                 if (row[i] == ' ' && !str_a && !ch_a)
                 {
                     Console.WriteLine("--> es vacio");
+                    //b_aux = row.Substring(i , row.Length - i );
 
                     b = row.Substring(i + 1, row.Length - i - 1);
-                    simbolos.Add("");
-                    if (i != 0)
+
+                   
+
+                    if (i == 0)
+                    {
+                        simbolos.Add("$");
+                    }
+                    //simbolos.Add("");
+                    else if (i != 0)
                     {
                         //case is 0 just ignore de first one
                         // ignore cause we need column
                         a = row.Substring(0, i);
                         simbolos.Add(a);
+                        simbolos.Add("$");
                         if (num)
                         {
                             num = false;
@@ -184,6 +195,7 @@ namespace PR_01
                 //get begining of string and end
                 else if (row[i] == '"' && (i == 0 || str_a))
                 {
+                    principio = false;
                     if (!str_a)
                     {
 
@@ -206,6 +218,7 @@ namespace PR_01
                 //get begining of char and end
                 else if (row[i] == '\'' && (i == 0 || ch_a))
                 {
+                    principio = false;
                     if (!ch_a)
                     {
                         Console.WriteLine("-->Empieza string");
@@ -228,8 +241,8 @@ namespace PR_01
                 //any kind of signo
                 else if (validarSigno(row[i].ToString()) && !str_a && !ch_a)
                 {
-
-                    Console.WriteLine("--> hay ; ");
+                    principio = false;
+                    Console.WriteLine("--> hay signo ");
                     if (i != 0)
                     {
                         ///it has to continue if it is is . and num
@@ -237,7 +250,7 @@ namespace PR_01
 
                         if (!((row[i] == '.') && num))
                         {
-                            Console.WriteLine("--> al final ");
+                            //Console.WriteLine("--> al final ");
 
 
                             a = row.Substring(0, i);
@@ -336,11 +349,13 @@ namespace PR_01
 
                 else if (char.IsDigit(row[i]) && !num)
                 {
+                    principio = false;
                     num = true;
                 }
 
                 else
                 {
+                    principio = false;
                     Console.WriteLine("--> esta en else");
                     i++;
 
@@ -360,8 +375,9 @@ namespace PR_01
 
             if (row.Length != 0)
             {
+                
                 a = row.Substring(0, i);
-
+                Console.WriteLine($"al final hay : [{a}]");
                 simbolos.Add(a);
 
 

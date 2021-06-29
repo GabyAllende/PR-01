@@ -123,10 +123,11 @@ namespace PR_01
             for (int i = 0; i < contents.Length; i++)
             {
                 //string[] temp = contents[i].Split(' ');
-                //string[] temp = metodos.SepararLineas(contents[i]);
+                string[] temp2 = metodos.SepararLineas(contents[i]);
                 string[] temp = metodos.charByChar2(contents[i]);
                 Console.WriteLine($"Fila {i+1}:");
-                Console.WriteLine("[{0}]", string.Join(",", temp));
+                Console.WriteLine("VERSION ANDY: [{0}]", string.Join(",", temp));
+                Console.WriteLine("VERSION GABY-TEFF: [{0}]", string.Join(",", temp2));
                 if (string.IsNullOrEmpty(contents[i]) || contents[i] == string.Empty || contents[i] == null || contents[i] == "\n" || contents[i] == "\n\r")
                 {
                     Console.WriteLine($"La fila {i + 1} es SALTO DE LINEA");
@@ -140,8 +141,9 @@ namespace PR_01
 
                 for (int j = 0; j < temp.Length; j++)
                 {
-                    
-                    if (!string.IsNullOrEmpty(temp[j]) && !string.IsNullOrWhiteSpace(temp[j]))
+
+                    //if (!string.IsNullOrEmpty(temp[j]) && !string.IsNullOrWhiteSpace(temp[j]))
+                    if (temp[j] != "$")
                     {
                         if (tabla.Reservadas.Contains(temp[j]))
                         {
@@ -262,8 +264,14 @@ namespace PR_01
                         
 
                     }
-                    cont += temp[j].Length + 1;
 
+                    else 
+                    {
+
+                        cont += 1;
+                    }
+
+                    cont += temp[j].Length;
 
 
 
