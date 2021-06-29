@@ -153,33 +153,36 @@ namespace PR_01
             {
                 a = "";
                 b = "";
+
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"row[{i}]: [{row[i]}]");
+                Console.ForegroundColor = ConsoleColor.White;
+                //Console.WriteLine("=== en while ===");
+                //Console.WriteLine($"j : [{j}]");
 
-                Console.WriteLine("=== en while ===");
-                Console.WriteLine($"j : [{j}]");
-
-                //gets space
-                if (row[i] == ' ' && !str_a && !ch_a)
+                if (row[i] == '\t' && !str_a && !ch_a)
                 {
-                    Console.WriteLine("--> es vacio");
+                    //Console.WriteLine("--> es vacio");
                     //b_aux = row.Substring(i , row.Length - i );
 
                     b = row.Substring(i + 1, row.Length - i - 1);
 
-                   
+
 
                     if (i == 0)
                     {
-                        simbolos.Add("$");
+                        Console.WriteLine("HAY TAB AL INICION");
+                        simbolos.Add("\t");
                     }
                     //simbolos.Add("");
                     else if (i != 0)
                     {
+                        Console.WriteLine("HAY TAB AL medio");
                         //case is 0 just ignore de first one
                         // ignore cause we need column
                         a = row.Substring(0, i);
                         simbolos.Add(a);
-                        simbolos.Add("$");
+                        simbolos.Add("\t");
                         if (num)
                         {
                             num = false;
@@ -192,118 +195,174 @@ namespace PR_01
                     i = 0;
                 }
 
-                //get begining of string and end
-                else if (row[i] == '"' && (i == 0 || str_a))
-                {
-                    principio = false;
-                    if (!str_a)
-                    {
 
-                        num = false;
-                        Console.WriteLine("-->Empieza string");
-                        str_a = true;
-                        i++;
-                    }
-                    else
+                else {
+
+                    //gets space
+                    if (row[i] == ' ' && !str_a && !ch_a)
                     {
-                        Console.WriteLine("--> termina string");
-                        a = row.Substring(0, i + 1);
+                        //Console.WriteLine("--> es vacio");
+                        //b_aux = row.Substring(i , row.Length - i );
+
                         b = row.Substring(i + 1, row.Length - i - 1);
-                        simbolos.Add(a);
-                        row = b;
-                        i = 0;
-                        str_a = false;
-                    }
-                }
-                //get begining of char and end
-                else if (row[i] == '\'' && (i == 0 || ch_a))
-                {
-                    principio = false;
-                    if (!ch_a)
-                    {
-                        Console.WriteLine("-->Empieza string");
-                        ch_a = true;
-                        i++;
-                    }
-                    else
-                    {
-                        Console.WriteLine("--> termina string");
-                        a = row.Substring(0, i + 1);
-                        b = row.Substring(i + 1, row.Length - i - 1);
-                        simbolos.Add(a);
-                        row = b;
-                        i = 0;
-                        ch_a = false;
-                    }
-                }
 
 
-                //any kind of signo
-                else if (validarSigno(row[i].ToString()) && !str_a && !ch_a)
-                {
-                    principio = false;
-                    Console.WriteLine("--> hay signo ");
-                    if (i != 0)
-                    {
-                        ///it has to continue if it is is . and num
-                        ///
 
-                        if (!((row[i] == '.') && num))
+                        if (i == 0)
                         {
-                            //Console.WriteLine("--> al final ");
-
-
+                            simbolos.Add("");
+                        }
+                        //simbolos.Add("");
+                        else if (i != 0)
+                        {
+                            //case is 0 just ignore de first one
+                            // ignore cause we need column
                             a = row.Substring(0, i);
                             simbolos.Add(a);
+                            simbolos.Add("");
+                            if (num)
+                            {
+                                num = false;
 
-
-                            b = row.Substring(i, row.Length - i);
-                            row = b;
-
-
-                            num = false;
-
-                            i = 0;
+                            }
 
                         }
-                        else { i++; }
 
-
+                        row = b;
+                        i = 0;
                     }
 
-                    else
+                    //get begining of string and end
+                    else if (row[i] == '"' && (i == 0 || str_a))
                     {
-                        //if i exists and with the next char is a signo
-                        if (i + 1 != row.Length)
+                        principio = false;
+                        if (!str_a)
                         {
-                            if (validarSigno(row[i].ToString() + row[i + 1].ToString()))
+
+                            num = false;
+                            //Console.WriteLine("-->Empieza string");
+                            str_a = true;
+                            i++;
+                        }
+                        else
+                        {
+                            //Console.WriteLine("--> termina string");
+                            a = row.Substring(0, i + 1);
+                            b = row.Substring(i + 1, row.Length - i - 1);
+                            simbolos.Add(a);
+                            row = b;
+                            i = 0;
+                            str_a = false;
+                        }
+                    }
+                    //get begining of char and end
+                    else if (row[i] == '\'' && (i == 0 || ch_a))
+                    {
+                        principio = false;
+                        if (!ch_a)
+                        {
+                            //Console.WriteLine("-->Empieza string");
+                            ch_a = true;
+                            i++;
+                        }
+                        else
+                        {
+                            //Console.WriteLine("--> termina string");
+                            a = row.Substring(0, i + 1);
+                            b = row.Substring(i + 1, row.Length - i - 1);
+                            simbolos.Add(a);
+                            row = b;
+                            i = 0;
+                            ch_a = false;
+                        }
+                    }
+
+
+                    //any kind of signo
+                    else if (validarSigno(row[i].ToString()) && !str_a && !ch_a)
+                    {
+                        principio = false;
+                        //Console.WriteLine("--> hay signo ");
+                        if (i != 0)
+                        {
+                            ///it has to continue if it is is . and num
+                            ///
+
+                            if (!((row[i] == '.') && num))
                             {
-                                Console.WriteLine("--> al principio ");
-                                a = row.Substring(0, 2);
+                                //Console.WriteLine("--> al final ");
+
+
+                                a = row.Substring(0, i);
                                 simbolos.Add(a);
-                                if (i + 2 != row.Length)
-                                {
-                                    b = row.Substring(i + 2, row.Length - i - 2);
-                                    row = b;
-                                }
-                                else
-                                {
-                                    row = "";
-                                }
+
+
+                                b = row.Substring(i, row.Length - i);
+                                row = b;
+
+
+                                num = false;
+
                                 i = 0;
 
                             }
-                            //for numbrers with decimal o integer
-                            else if (row[i].ToString() == "-" && char.IsDigit(row[i + 1]))
+                            else { i++; }
+
+
+                        }
+
+                        else
+                        {
+                            //if i exists and with the next char is a signo
+                            if (i + 1 != row.Length)
                             {
-                                // si viene de un identificaodor
-                                Console.WriteLine("-> es un numero");
-                                num = true;
-                                i++;
+                                if (validarSigno(row[i].ToString() + row[i + 1].ToString()))
+                                {
+                                    //Console.WriteLine("--> al principio ");
+                                    a = row.Substring(0, 2);
+                                    simbolos.Add(a);
+                                    if (i + 2 != row.Length)
+                                    {
+                                        b = row.Substring(i + 2, row.Length - i - 2);
+                                        row = b;
+                                    }
+                                    else
+                                    {
+                                        row = "";
+                                    }
+                                    i = 0;
+
+                                }
+                                //for numbrers with decimal o integer
+                                else if (row[i].ToString() == "-" && char.IsDigit(row[i + 1]))
+                                {
+                                    // si viene de un identificaodor
+                                    //Console.WriteLine("-> es un numero");
+                                    num = true;
+                                    i++;
+                                }
+                                else
+                                {
+                                    //Console.WriteLine("--> al principio ");
+                                    a = row.Substring(0, 1);
+                                    simbolos.Add(a);
+
+                                    if (i + 1 != row.Length)
+                                    {
+                                        b = row.Substring(i + 1, row.Length - i - 1);
+                                        row = b;
+                                    }
+                                    else
+                                    {
+                                        row = "";
+                                    }
+                                    i = 0;
+
+                                }
                             }
                             else
                             {
-                                Console.WriteLine("--> al principio ");
+                                //Console.WriteLine("--> al principio ");
                                 a = row.Substring(0, 1);
                                 simbolos.Add(a);
 
@@ -316,27 +375,11 @@ namespace PR_01
                                 {
                                     row = "";
                                 }
+
                                 i = 0;
 
                             }
-                        }
-                        else
-                        {
-                            Console.WriteLine("--> al principio ");
-                            a = row.Substring(0, 1);
-                            simbolos.Add(a);
 
-                            if (i + 1 != row.Length)
-                            {
-                                b = row.Substring(i + 1, row.Length - i - 1);
-                                row = b;
-                            }
-                            else
-                            {
-                                row = "";
-                            }
-
-                            i = 0;
 
                         }
 
@@ -344,29 +387,31 @@ namespace PR_01
                     }
 
 
+                    else if (char.IsDigit(row[i]) && !num)
+                    {
+                        principio = false;
+                        num = true;
+                    }
+
+                    else
+                    {
+                        principio = false;
+                        //Console.WriteLine("--> esta en else");
+                        i++;
+
+                    }
+
+
                 }
 
+               
 
-                else if (char.IsDigit(row[i]) && !num)
-                {
-                    principio = false;
-                    num = true;
-                }
-
-                else
-                {
-                    principio = false;
-                    Console.WriteLine("--> esta en else");
-                    i++;
-
-                }
-
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("======Despues de ingresar=============");
-                Console.WriteLine($"a: [{a}]");
-                Console.WriteLine($"b:  [{b}]");
-                Console.WriteLine("======Fin de ingresar=============");
-                Console.ForegroundColor = ConsoleColor.White;
+                //Console.ForegroundColor = ConsoleColor.Red;
+                //Console.WriteLine("======Despues de ingresar=============");
+                //Console.WriteLine($"a: [{a}]");
+                //Console.WriteLine($"b:  [{b}]");
+                //Console.WriteLine("======Fin de ingresar=============");
+                //Console.ForegroundColor = ConsoleColor.White;
 
 
                 j++;

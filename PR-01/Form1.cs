@@ -128,22 +128,30 @@ namespace PR_01
                 Console.WriteLine($"Fila {i+1}:");
                 Console.WriteLine("VERSION ANDY: [{0}]", string.Join(",", temp));
                 Console.WriteLine("VERSION GABY-TEFF: [{0}]", string.Join(",", temp2));
-                if (string.IsNullOrEmpty(contents[i]) || contents[i] == string.Empty || contents[i] == null || contents[i] == "\n" || contents[i] == "\n\r")
-                {
-                    Console.WriteLine($"La fila {i + 1} es SALTO DE LINEA");
-                    cont += 1;
-                }
-                if (contents[i].Contains("\t")) 
-                {
-                    Console.WriteLine($"La fila {i + 1} es TAB");
-                    cont += 1;
-                }
+                //if (string.IsNullOrEmpty(contents[i]) || contents[i] == string.Empty || contents[i] == null || contents[i] == "\n" || contents[i] == "\n\r")
+                //{
+                //    Console.WriteLine($"La fila {i + 1} es SALTO DE LINEA");
+                //    cont += 1;
+                //}
+
+                //if (contents[i].Contains("\t")) 
+                //{
+                //    Console.WriteLine($"La fila {i + 1} es TAB");
+                //    cont += 1;
+                //}
 
                 for (int j = 0; j < temp.Length; j++)
                 {
 
-                    //if (!string.IsNullOrEmpty(temp[j]) && !string.IsNullOrWhiteSpace(temp[j]))
-                    if (temp[j] != "$")
+                    //if (temp[j] == "\t")
+                    //{
+                    //    Console.WriteLine("ESSS TAB ");
+                    
+                    //}
+
+                    if (!string.IsNullOrEmpty(temp[j]) && !string.IsNullOrWhiteSpace(temp[j]))
+                    //if (temp[j] != "$")
+                    //if(temp[j]!= "")
                     {
                         if (tabla.Reservadas.Contains(temp[j]))
                         {
@@ -271,11 +279,23 @@ namespace PR_01
                         cont += 1;
                     }
 
-                    cont += temp[j].Length;
+                    if (temp[j] == "\t")
+                    {
+                        Console.WriteLine("ESSS TAB ");
+                        //cont += ;
+
+                    }
+                    else
+                    {
+                        cont += temp[j].Length;
+                    }
+                    
 
 
 
                 }
+
+                cont += 1;
             }
 
             txt_simbolos.Lines = tabla.StringArraySimbolos();
