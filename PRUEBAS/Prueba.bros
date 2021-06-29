@@ -18,6 +18,7 @@ waw [ puntuacion ]
                 crash mas -> 'm' ;
                 break ;
 }
+	zap a = 1
 zap==5;
 sting=="perrro"; 
 "perrro"zap
