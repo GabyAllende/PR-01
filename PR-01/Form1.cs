@@ -160,7 +160,7 @@ namespace PR_01
                 //words.AddRange(aux);
 
                 
-                string pendiente = null;
+                string reserva = null;
                 bool declaracion = false;
                 bool asignacion = false;
 
@@ -225,12 +225,12 @@ namespace PR_01
 
                                     words.Add(temp[j]);
 
-                                    if (pendiente != null)
+                                    if (reserva != null)
                                     {
                                         //solo me interesa para asignar
                                         if (temp[j] == "->") { asignacion = true; }
 
-                                        else { pendientes = null; }
+                                        else { reserva = null; }
                                     }
 
 
@@ -255,7 +255,7 @@ namespace PR_01
                                     if (asignacion)
                                     {
                                         //int index = pendientes.FindIndex(item => item.Item2 == pendiente);
-                                        int index = metodos.buscarindexItem2(pendientes, pendiente);
+                                        int index = metodos.buscarindexItem2(pendientes, reserva);
                                         //revisar luego
                                         (string, string, string) auxiliar = (pendientes[index].Item1, pendientes[index].Item2, temp[j]);
                                         if (auxiliar.Item1 == "zap")
@@ -264,7 +264,7 @@ namespace PR_01
                                             pendientes.RemoveAt(index);
                                             pendientes.Add(auxiliar);
                                             asignacion = false;
-                                            pendiente = null;
+                                            reserva = null;
 
 
                                         }
@@ -310,7 +310,7 @@ namespace PR_01
                                     if (asignacion)
                                     {
                                         //int index = pendientes.FindIndex(item => item.Item2 == pendiente);
-                                        int index = metodos.buscarindexItem2(pendientes, pendiente);
+                                        int index = metodos.buscarindexItem2(pendientes, reserva);
                                         //revisar luego
                                         (string, string, string) auxiliar = (pendientes[index].Item1, pendientes[index].Item2, temp[j]);
                                         if (auxiliar.Item1 == "smash")
@@ -319,7 +319,7 @@ namespace PR_01
                                             pendientes.RemoveAt(index);
                                             pendientes.Add(auxiliar);
                                             asignacion = false;
-                                            pendiente = null;
+                                            reserva = null;
                                         }
                                         else
                                         {
@@ -361,7 +361,7 @@ namespace PR_01
                                     if (asignacion)
                                     {
                                         //int index = pendientes.FindIndex(item => item.Item2 == pendiente);
-                                        int index = metodos.buscarindexItem2(pendientes, pendiente);
+                                        int index = metodos.buscarindexItem2(pendientes, reserva);
                                         //revisar luego
                                         (string, string, string) auxiliar = (pendientes[index].Item1, pendientes[index].Item2, temp[j]);
                                         if (auxiliar.Item1 == "crash")
@@ -370,7 +370,7 @@ namespace PR_01
                                             pendientes.RemoveAt(index);
                                             pendientes.Add(auxiliar);
                                             asignacion = false;
-                                            pendiente = null;
+                                            reserva = null;
 
                                         }
                                         else
@@ -416,7 +416,7 @@ namespace PR_01
                                     if (asignacion)
                                     {
                                         //int index = pendientes.FindIndex(item => item.Item2 == pendiente);
-                                        int index = metodos.buscarindexItem2(pendientes, pendiente);
+                                        int index = metodos.buscarindexItem2(pendientes, reserva);
                                         //revisar luego
                                         (string, string, string) auxiliar = (pendientes[index].Item1, pendientes[index].Item2, temp[j]);
                                         if (auxiliar.Item1 == "sting" )
@@ -425,7 +425,7 @@ namespace PR_01
                                             pendientes.RemoveAt(index);
                                             pendientes.Add(auxiliar);
                                             asignacion = false;
-                                            pendiente = null;
+                                            reserva = null;
 
                                         }
                                         else
@@ -469,7 +469,7 @@ namespace PR_01
                                     if (asignacion)
                                     {
                                         //int index = pendientes.FindIndex(item => item.Item2 == pendiente);
-                                        int index = metodos.buscarindexItem2(pendientes,pendiente);
+                                        int index = metodos.buscarindexItem2(pendientes,reserva);
                                         //revisar luego
                                         (string, string, string) auxiliar = (pendientes[index].Item1, pendientes[index].Item2, temp[j]);
                                         if (auxiliar.Item1 == "boom")
@@ -478,7 +478,7 @@ namespace PR_01
                                             pendientes.RemoveAt(index);
                                             pendientes.Add(auxiliar);
                                             asignacion = false;
-                                            pendiente = null;
+                                            reserva = null;
 
                                         }
                                         else
@@ -547,23 +547,37 @@ namespace PR_01
                                             //si es mas de uno
                                             if (respuestas.Count > 1)
                                             {
+                                                
                                                 Console.WriteLine("Doble asignacion");
+                                               
+
+                                                rtxt_codigo.Select(cont, temp[j].Length);
+                                                rtxt_codigo.SelectionColor = Color.Blue;
+                                                break;
 
                                             }
                                             else if (respuestas.Count == 0)
                                             {//si existe
                                                 Console.WriteLine("No existe");
+
+                                                rtxt_codigo.Select(cont, temp[j].Length);
+                                                rtxt_codigo.SelectionColor = Color.Blue;
+                                                break;
                                             }
                                             else if (respuestas[0].Item3 == null)
                                             {
                                                 Console.WriteLine("NO esta asignando");
 
+                                                rtxt_codigo.Select(cont, temp[j].Length);
+                                                rtxt_codigo.SelectionColor = Color.Blue;
+                                                break;
+
                                             }
                                             else 
                                             {
                                             
-                                                //int index = pendientes.FindIndex(item => item.Item2 == pendiente);
-                                                int index = metodos.buscarindexItem2(pendientes, pendiente);
+                                                //int index = pendientes.FindIndex(item => item.Item2 == reserva);
+                                                int index = metodos.buscarindexItem2(pendientes, reserva);
                                                 
 
 
@@ -574,7 +588,7 @@ namespace PR_01
                                                     pendientes.RemoveAt(index);
                                                     pendientes.Add(auxiliar);
                                                     asignacion = false;
-                                                    pendiente = null;
+                                                    reserva = null;
 
                                                 
                                             }
@@ -590,6 +604,9 @@ namespace PR_01
                                             {
                                                 Console.WriteLine("HAY UNA DOBLE DECLARACION");
 
+                                                rtxt_codigo.Select(cont, temp[j].Length);
+                                                rtxt_codigo.SelectionColor = Color.Blue;
+                                                break;
                                             }
                                             else if (answer.Count == 0)
                                             {
@@ -597,12 +614,16 @@ namespace PR_01
 
                                                 Console.WriteLine("NO DECLARADA LA VARIABLE");
 
+                                                rtxt_codigo.Select(cont, temp[j].Length);
+                                                rtxt_codigo.SelectionColor = Color.Blue;
+                                                break;
+
                                             }
 
                                             else
                                             {
 
-                                                pendiente = temp[j];
+                                                reserva = temp[j];
 
 
                                             }
@@ -613,9 +634,10 @@ namespace PR_01
 
                                     }
 
-                                    rtxt_codigo.Select(cont, temp[j].Length);
-                                    rtxt_codigo.SelectionColor = Color.Gold;
+                                    
                                 }
+                                rtxt_codigo.Select(cont, temp[j].Length);
+                                rtxt_codigo.SelectionColor = Color.Gold;
                             }
                             else
                             {
