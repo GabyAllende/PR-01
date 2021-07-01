@@ -1,0 +1,7 @@
+begin 
+zap a ; 
+zap c ; e
+a -> 't' ; 
+c -> 2 ; e
+end  
+

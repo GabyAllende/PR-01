@@ -19,6 +19,17 @@ namespace PR_01
 
         private Tablas tabla = new Tablas();
         private Metodos metodos = new Metodos();
+        //private MetodosSintactico metodosS = new MetodosSintactico();
+
+
+
+        List<List<(string, List<string>, int)>> estados { get; set; }
+
+        
+
+        List<List<(string, string)>> caminos { get; set; }
+
+
 
         public Notepad(string filename)
         {
@@ -27,6 +38,10 @@ namespace PR_01
             InitializeComponent();
             rtxt_codigo.Lines = contents;
             lb_numbers.Font = new Font(rtxt_codigo.Font.FontFamily, rtxt_codigo.Font.Size);
+
+            //primero crear el automata y los caminos
+            (caminos, estados) = MetodosSintactico.automataSLR(MetodosSintactico.terminales, MetodosSintactico.Noterminales, MetodosSintactico.gramatica2 );
+            
             updateNumberLabel();
         }
 
@@ -118,29 +133,46 @@ namespace PR_01
 
         private void btn_run_Click(object sender, EventArgs e)
         {
+            
+
+
+
+
             tabla.Simbolos.Clear();
             int cont = 0;
+
+            List<string> words = new List<string>();
+
+            List<(string, string, string)> pendientes = new List<(string, string, string)>();
             for (int i = 0; i < contents.Length; i++)
             {
-                //string[] temp = contents[i].Split(' ');
-                string[] temp = metodos.SepararLineas(contents[i]);
+                
+                //string[] temp2 = metodos.SepararLineas(contents[i]);
+                string[] temp = metodos.charByChar2(contents[i]);
                 Console.WriteLine($"Fila {i+1}:");
-                Console.WriteLine("[{0}]", string.Join(",", temp));
-                if (string.IsNullOrEmpty(contents[i]) || contents[i] == string.Empty || contents[i] == null || contents[i] == "\n" || contents[i] == "\n\r")
-                {
-                    Console.WriteLine($"La fila {i + 1} es SALTO DE LINEA");
-                    cont += 1;
-                }
-                if (contents[i].Contains("\t")) 
-                {
-                    Console.WriteLine($"La fila {i + 1} es TAB");
-                    cont += 1;
-                }
+                Console.WriteLine("VERSION ANDY: [{0}]", string.Join(",", temp));
+                //Console.WriteLine("VERSION GABY-TEFF: [{0}]", string.Join(",", temp2));
+
+                List<string> aux = temp.ToList();
+                aux.RemoveAll(item => item == "\t" || item.Equals("") || item.Equals("\n"));
+
+                //words.AddRange(aux);
+
+                
+                string pendiente = null;
+                bool declaracion = false;
+                bool asignacion = false;
+
+
+                (string, string, string) intermedio = (null, null, null);
 
                 for (int j = 0; j < temp.Length; j++)
                 {
-                    
+
+                   
+
                     if (!string.IsNullOrEmpty(temp[j]) && !string.IsNullOrWhiteSpace(temp[j]))
+         
                     {
                         if (tabla.Reservadas.Contains(temp[j]))
                         {
@@ -154,6 +186,18 @@ namespace PR_01
                                 }
 
                                 );
+                            words.Add(temp[j]);
+
+                            // si es palabra de tipo
+                            if(metodos.validarTipo(temp[j]))
+                            {
+                                intermedio.Item1 = temp[j];
+
+                                
+                                declaracion = true;
+                            }
+
+
 
                             rtxt_codigo.Select(cont, temp[j].Length);
                             rtxt_codigo.SelectionColor = Color.SpringGreen;
@@ -177,72 +221,342 @@ namespace PR_01
                                     }
 
                                     );
+
+                                    words.Add(temp[j]);
+
+                                    if (pendiente != null)
+                                    {
+                                        //solo me interesa para asignar
+                                        if (temp[j] == "->") { asignacion = true; }
+
+                                        else { pendientes = null; }
+                                    }
+
+
+
+
+
                                 }
-                                else if (metodos.validarNumeros(temp[j]))
+                                else if (metodos.validarNumerosEnteros(temp[j]))
                                 {
                                     tabla.Simbolos.Add(
                                     new Simbolo()
                                     {
-                                        Token = "Numeros",
+                                        Token = "num_entero",
                                         Lexema = temp[j],
                                         Fila = i + 1,
                                         Columna = j + 1
                                     }
 
                                     );
+                                    words.Add("num_entero");
 
+                                    if (asignacion)
+                                    {
+                                        //int index = pendientes.FindIndex(item => item.Item2 == pendiente);
+                                        int index = metodos.buscarindexItem2(pendientes, pendiente);
+                                        //revisar luego
+                                        (string, string, string) auxiliar = (pendientes[index].Item1, pendientes[index].Item2, temp[j]);
+                                        if (auxiliar.Item1 == "zap")
+                                        {
+
+                                            pendientes.RemoveAt(index);
+                                            pendientes.Add(auxiliar);
+                                            asignacion = false;
+                                            pendiente = null;
+
+
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("ERROR DE TIPO");
+                                        }
+
+
+
+                                    }
+
+                                }
+                                else if (metodos.validarNumerosDecimales(temp[j]))
+                                {
+                                    tabla.Simbolos.Add(
+                                    new Simbolo()
+                                    {
+                                        Token = "num_real",
+                                        Lexema = temp[j],
+                                        Fila = i + 1,
+                                        Columna = j + 1
+                                    }
+
+                                    );
+                                    words.Add("num_real");
+
+
+                                    if (asignacion)
+                                    {
+                                        //int index = pendientes.FindIndex(item => item.Item2 == pendiente);
+                                        int index = metodos.buscarindexItem2(pendientes, pendiente);
+                                        //revisar luego
+                                        (string, string, string) auxiliar = (pendientes[index].Item1, pendientes[index].Item2, temp[j]);
+                                        if (auxiliar.Item1 == "smash")
+                                        {
+
+                                            pendientes.RemoveAt(index);
+                                            pendientes.Add(auxiliar);
+                                            asignacion = false;
+                                            pendiente = null;
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("ERROR DE TIPO");
+                                        }
+
+
+
+
+                                    }
                                 }
                                 else if (metodos.validarChar(temp[j]))
                                 {
                                     tabla.Simbolos.Add(
                                     new Simbolo()
                                     {
-                                        Token = "Crash",
+                                        Token = "val_crash",
                                         Lexema = temp[j],
                                         Fila = i + 1,
                                         Columna = j + 1
                                     }
 
                                     );
+                                    words.Add("val_crash");
 
+                                    if (asignacion)
+                                    {
+                                        //int index = pendientes.FindIndex(item => item.Item2 == pendiente);
+                                        int index = metodos.buscarindexItem2(pendientes, pendiente);
+                                        //revisar luego
+                                        (string, string, string) auxiliar = (pendientes[index].Item1, pendientes[index].Item2, temp[j]);
+                                        if (auxiliar.Item1 == "crash")
+                                        {
+
+                                            pendientes.RemoveAt(index);
+                                            pendientes.Add(auxiliar);
+                                            asignacion = false;
+                                            pendiente = null;
+
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("ERROR DE TIPO");
+
+                                        }
+
+                                    }
                                 }
                                 else if (metodos.validarString(temp[j]))
                                 {
                                     tabla.Simbolos.Add(
                                     new Simbolo()
                                     {
-                                        Token = "Sting",
+                                        Token = "val_sting",
                                         Lexema = temp[j],
                                         Fila = i + 1,
                                         Columna = j + 1
                                     }
 
                                     );
+                                    words.Add("val_sting");
+
+                                    if (asignacion)
+                                    {
+                                        //int index = pendientes.FindIndex(item => item.Item2 == pendiente);
+                                        int index = metodos.buscarindexItem2(pendientes, pendiente);
+                                        //revisar luego
+                                        (string, string, string) auxiliar = (pendientes[index].Item1, pendientes[index].Item2, temp[j]);
+                                        if (auxiliar.Item1 == "sting" )
+                                        {
+
+                                            pendientes.RemoveAt(index);
+                                            pendientes.Add(auxiliar);
+                                            asignacion = false;
+                                            pendiente = null;
+
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("ERROR DE TIPO");
+
+                                        }
+                                    }
+                                }
+                                else if ((temp[j] == "true" || temp[j] == "false"))
+                                {
+                                    //validadcion bool
+                                    tabla.Simbolos.Add(
+                                   new Simbolo()
+                                   {
+                                       Token = temp[j],
+                                       Lexema = temp[j],
+                                       Fila = i + 1,
+                                       Columna = j + 1
+                                   }
+
+                                   );
+                                    words.Add(temp[j]);
+
+                                    if (asignacion)
+                                    {
+                                        //int index = pendientes.FindIndex(item => item.Item2 == pendiente);
+                                        int index = metodos.buscarindexItem2(pendientes,pendiente);
+                                        //revisar luego
+                                        (string, string, string) auxiliar = (pendientes[index].Item1, pendientes[index].Item2, temp[j]);
+                                        if (auxiliar.Item1 == "boom")
+                                        {
+
+                                            pendientes.RemoveAt(index);
+                                            pendientes.Add(auxiliar);
+                                            asignacion = false;
+                                            pendiente = null;
+
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("ERROR DE TIPO");
+                                            rtxt_codigo.Select(cont, contents[i].Length);
+                                            rtxt_codigo.SelectionColor = Color.Red;
+                                            break;
+                                        }
+                                    }
+
+
 
                                 }
+
                                 else
                                 {
+
                                     tabla.Simbolos.Add(
-                                    new Simbolo()
-                                    {
-                                        Token = "Identificador",
-                                        Lexema = temp[j],
-                                        Fila = i + 1,
-                                        Columna = j + 1
-                                    }
+                                        new Simbolo()
+                                        {
+                                            Token = "identificador",
+                                            Lexema = temp[j],
+                                            Fila = i + 1,
+                                            Columna = j + 1
+                                        }
 
                                     );
-                                }
+                                    if (temp[j] == "e")
+                                    {
+                                        words.Add("e");
+                                    }
+                                    else
+                                    {
+                                        words.Add("identificador");
+                                        // si es estas en proceso de declaracion
+                                        if (declaracion)
+                                        {
 
-                                rtxt_codigo.Select(cont, temp[j].Length);
-                                rtxt_codigo.SelectionColor = Color.Gold;
+                                            intermedio.Item2 = temp[j];
+                                            declaracion = false;
+                                            pendientes.Add(intermedio);
+                                            declaracion = true;
+
+
+                                        }
+                                        else if (asignacion)
+                                        {
+
+                                            //List<(string, string, string)> respuestas = pendientes.FindAll(item => item.Item2 == temp[j]);
+                                            List<(string, string, string)> respuestas = metodos.buscarItem2(pendientes, temp[j]);
+                                            //si es mas de uno
+                                            if (respuestas.Count > 1)
+                                            {
+                                                Console.WriteLine("Doble asignacion");
+
+                                            }
+                                            else if (respuestas.Count == 0)
+                                            {//si existe
+                                                Console.WriteLine("No existe");
+                                            }
+                                            else if (respuestas[0].Item3 == null)
+                                            {
+                                                Console.WriteLine("NO esta asignando");
+
+                                            }
+                                            else 
+                                            {
+                                            
+                                                //int index = pendientes.FindIndex(item => item.Item2 == pendiente);
+                                                int index = metodos.buscarindexItem2(pendientes, pendiente);
+                                                
+
+
+
+                                                //revisar luego
+                                                (string, string, string) auxiliar = (pendientes[index].Item1, pendientes[index].Item2, respuestas[0].Item3);
+                                                
+                                                    pendientes.RemoveAt(index);
+                                                    pendientes.Add(auxiliar);
+                                                    asignacion = false;
+                                                    pendiente = null;
+
+                                                
+
+                                            }
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+
+                                        }
+                                        else
+                                        {
+                                            //buscamos en pendientes 
+                                            List<(string, string, string)> answer = metodos.buscarItem2(pendientes, temp[j]);
+                                            //List<(string, string, string)> answer = pendientes.FindAll(item => item.Item2 == temp[j]);
+                                            //si hay mas de uno, no funciona
+                                            if (answer.Count > 1)
+                                            {
+                                                Console.WriteLine("HAY UNA DOBLE DECLARACION");
+
+                                            }
+                                            else if (answer.Count == 0)
+                                            {
+                                                // si no existe, error no declarado
+
+                                                Console.WriteLine("NO DECLARADA LA VARIABLE");
+
+
+                                            }
+
+                                            else
+                                            {
+
+                                                pendiente = temp[j];
+
+
+                                            }
+
+
+
+
+                                        }
+
+                                    }
+
+                                    rtxt_codigo.Select(cont, temp[j].Length);
+                                    rtxt_codigo.SelectionColor = Color.Gold;
+                                }
                             }
                             else
                             {
+                                //ESS UN ERROR , CONSIDERAR LUEGO
                                 tabla.Simbolos.Add(
                                 new Simbolo()
                                 {
-                                    Token = "Identificador",
+                                    Token = "identificador",
                                     Lexema = temp[j],
                                     Fila = i + 1,
                                     Columna = j + 1,
@@ -250,6 +564,8 @@ namespace PR_01
                                 }
 
                                 );
+                                words.Add("#Error");
+
                                 rtxt_codigo.Select(cont, temp[j].Length);
                                 rtxt_codigo.SelectionColor = Color.Red;
                             }
@@ -261,13 +577,78 @@ namespace PR_01
                         
 
                     }
-                    cont += temp[j].Length + 1;
 
+                    else 
+                    {
+
+                        cont += 1;
+                    }
+
+                    if (temp[j] == "\t")
+                    {
+                        Console.WriteLine("ESSS TAB ");
+                       
+
+                    }
+                    else
+                    {
+                        cont += temp[j].Length;
+                    }
+                    
 
 
 
                 }
+
+
+              
+                cont += 1;
+
+
+
+
+
             }
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("Imprimiento");
+            foreach (var it in pendientes  ) 
+            {
+                Console.WriteLine($"[{it.Item1}  - {it.Item2}  - {it.Item3}]");
+            }
+            Console.ForegroundColor = ConsoleColor.White;
+
+
+            Console.WriteLine("VERSION REEMPLAZO: [{0}]", string.Join(",", words));
+
+
+            string megaString = String.Join(" ", words);
+            (bool, List<(int, string)>, List<(int, string)>) respuesta = MetodosSintactico.procesarCadena(megaString, caminos);
+
+            if (respuesta.Item1)
+            {
+                Console.WriteLine("ESTAAA CORRRECTO");
+
+            }
+            else 
+            {
+                Console.WriteLine("ESTAAA MAAL");
+            }
+
+            //Console.WriteLine("IMPRIMIENDO CAMINOOS");
+            //foreach (var item in respuesta.Item2)
+            //{
+            //    Console.WriteLine($"[{item.Item1} - {item.Item2}]");
+            
+            //}
+
+            //Console.WriteLine("IMPRIMIENDO EQUIVALENCIAS");
+            //foreach (var item in respuesta.Item3)
+            //{
+            //    Console.WriteLine($"[{item.Item1} - {item.Item2}]");
+
+            //}
+
 
             txt_simbolos.Lines = tabla.StringArraySimbolos();
         }
