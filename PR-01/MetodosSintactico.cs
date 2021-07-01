@@ -110,7 +110,7 @@ namespace PR_01
             {
                 new string[] {"identificador","->","S"},
                 new string[] {"identificador","->","V"},
-                new string[] {"identificador","->","M"}
+                new string[] {"identificador","->","CC"}
             }),
             ("S", new string[][]
             {
@@ -132,10 +132,10 @@ namespace PR_01
             }),
             ("V", new string[][]
             {
-                new string[] {"[","V","++","V","]"},
+               // new string[] {"[","V","++","V","]"},
                 new string[] {"identificador"},
-                new string[] {"sting"},
-                new string[] {"crash"}
+                new string[] {"val_sting"},
+                new string[] {"val_crash"}
             }),
             ("W", new string[][]
             {
@@ -238,7 +238,7 @@ namespace PR_01
            ("Q", new List<string>(){"wham", "[","M","]","{","H","}"}),
            ("R", new List<string>(){"identificador","->","S"}),
            ("R", new List<string>(){ "identificador", "->","V"}),
-           ("R", new List<string>(){ "identificador", "->","M"}),
+           ("R", new List<string>(){ "identificador", "->","CC"}),
            //("S", new List<string>(){"[","S","U","S","]","T"}),
            ///("S", new List<string>(){ "identificador", "T"}),
            //("S", new List<string>(){"P","T"}),
@@ -257,10 +257,10 @@ namespace PR_01
             ("U", new List<string>(){"P"}),
            ("U", new List<string>(){"-","U"}),
             ("U", new List<string>(){"(","S",")"}),
-           ("V", new List<string>(){"[","V","++","V","]"}),
+           //("V", new List<string>(){"[","V","++","V","]"}),
            ("V", new List<string>(){"identificador"}),
-           ("V", new List<string>(){"sting"}),
-           ("V", new List<string>(){"crash"}),
+           ("V", new List<string>(){"val_sting"}),
+           ("V", new List<string>(){"val_crash"}),
            ("W", new List<string>(){"xor"}),
            ("W", new List<string>(){"and"}),
            ("W", new List<string>(){"not"}),
