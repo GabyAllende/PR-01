@@ -79,7 +79,7 @@ namespace PR_01
             {
                 new string[] {"O","N","O"},
                 //new string[] {"M","W","M"},
-                new string[] {"CC"}
+                new string[] {"val_boom"}
             }),
             ("N", new string[][]
             {
@@ -110,7 +110,7 @@ namespace PR_01
             {
                 new string[] {"identificador","->","S"},
                 new string[] {"identificador","->","V"},
-                new string[] {"identificador","->","CC"}
+                new string[] {"identificador","->","val_boom"}
             }),
             ("S", new string[][]
             {
@@ -156,7 +156,7 @@ namespace PR_01
             ("AA", new string[][]
             {
                 new string[] {"P"},
-                new string[] {"CC"},
+                new string[] {"val_boom"},
                 new string[] {"val_crash"},
                 new string[] {"val_sting"}
             }),
@@ -164,12 +164,12 @@ namespace PR_01
             //{
             //    new string[] {"fush","[","D","R",";","M",";","R","S","]","{","H","}"}
             //}),
-            ("CC", new string[][]
-            {
-                new string[] {"true"},
-                new string[] {"false"}
+            //("CC", new string[][]
+            //{
+            //    new string[] {"true"},
+            //    new string[] {"false"}
 
-            })
+            //})
 
 
 
@@ -184,12 +184,12 @@ namespace PR_01
             ">=","<",">","num_entero","num_real","wham",
             "fush","waw","zap","smash","sting","boom","crash","xor",
             "and","not","or","{","}","->","+","-","*","/","++","real","!",
-            ":",",","puerta","break","default","true","false","val_crash",
+            ":",",","puerta","break","default","val_boom","val_crash",
             "val_sting"};
 
 
         public static List<string> Noterminales = new List<string>(){"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R",
-            "S","T","U","V","W","X","Y","Z","AA","BB","CC"};
+            "S","T","U","V","W","X","Y","Z","AA","BB"};
 
 
 
@@ -222,7 +222,7 @@ namespace PR_01
            ("L", new List<string>(){"else","{","H","}"}),
            ("M", new List<string>(){"O","N","O"}),
           // ("M", new List<string>(){"M","W","M"}),
-           ("M", new List<string>(){"CC"}),
+           ("M", new List<string>(){"val_boom"}),
            ("N", new List<string>(){"="}),
            ("N", new List<string>(){"<="}),
            ("N", new List<string>(){">="}),
@@ -238,7 +238,7 @@ namespace PR_01
            ("Q", new List<string>(){"wham", "[","M","]","{","H","}"}),
            ("R", new List<string>(){"identificador","->","S"}),
            ("R", new List<string>(){ "identificador", "->","V"}),
-           ("R", new List<string>(){ "identificador", "->","CC"}),
+           ("R", new List<string>(){ "identificador", "->","val_boom"}),
            //("S", new List<string>(){"[","S","U","S","]","T"}),
            ///("S", new List<string>(){ "identificador", "T"}),
            //("S", new List<string>(){"P","T"}),
@@ -269,12 +269,12 @@ namespace PR_01
            ("Z", new List<string>(){"puerta","AA",":","H","break",";","Z"}),
            ("Z", new List<string>(){"default",":","H","break",";"}),
            ("AA", new List<string>(){"P"}),
-           ("AA", new List<string>(){"CC"}),
+           ("AA", new List<string>(){"val_boom"}),
            ("AA", new List<string>(){"val_crash"}),
            ("AA", new List<string>(){"val_sting"}),
           // ("BB", new List<string>(){"fush","[","D","R",";","M",";","R","S","]","{","H","}"}),
-           ("CC", new List<string>(){"true"}),
-           ("CC", new List<string>(){"false"})
+           //("CC", new List<string>(){"true"}),
+           //("CC", new List<string>(){"false"})
         };
 
 
