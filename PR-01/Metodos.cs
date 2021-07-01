@@ -127,8 +127,7 @@ namespace PR_01
         public List<(string, string, string)> buscarItem2(List<(string, string, string)> pendiente , string item)
         {
             List<(string, string, string)> answer = new List<(string, string, string)>();
-            if (pendiente != null)
-            {
+            
                 foreach (var obj in pendiente)
                 {
                     if (obj.Item2 != null)
@@ -142,7 +141,7 @@ namespace PR_01
                     }
                 }
 
-            }
+            
             
             return answer;
 
