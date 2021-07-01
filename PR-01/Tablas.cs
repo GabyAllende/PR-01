@@ -28,9 +28,7 @@ namespace PR_01
             "and",
             "or",
             "xor",
-            "not",
-            "true",
-            "false"
+            "not"
 
         };
         public List<Simbolo> Simbolos { get; set; } = new List<Simbolo>();

@@ -1,9 +1,9 @@
 begin 
-zap a ; 
-zap b ;
-zap c ; e
-a -> 2; 
-b -> 2 ; 
-c -> a + b ; e
-end  
-
+sting a ; 
+zap b ; 
+boom m ; e 
+b -> 5 ; 
+m -> true;
+if [ m ] 
+{ a -> "hola" ; e } ; e 
+end

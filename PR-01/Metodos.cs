@@ -231,6 +231,7 @@ namespace PR_01
         }
 
 
+
         public string[] charByChar2(string row)
         {
             int tam = row.Length;
@@ -262,9 +263,9 @@ namespace PR_01
                 a = "";
                 b = "";
 
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"row[{i}]: [{row[i]}]");
-                Console.ForegroundColor = ConsoleColor.White;
+                //Console.ForegroundColor = ConsoleColor.Green;
+                //Console.WriteLine($"row[{i}]: [{row[i]}]");
+                //Console.ForegroundColor = ConsoleColor.White;
                 //Console.WriteLine("=== en while ===");
                 //Console.WriteLine($"j : [{j}]");
 
@@ -279,13 +280,13 @@ namespace PR_01
 
                     if (i == 0)
                     {
-                        Console.WriteLine("HAY TAB AL INICION");
+                        //Console.WriteLine("HAY TAB AL INICION");
                         simbolos.Add("\t");
                     }
                     //simbolos.Add("");
                     else if (i != 0)
                     {
-                        Console.WriteLine("HAY TAB AL medio");
+                        //Console.WriteLine("HAY TAB AL medio");
                         //case is 0 just ignore de first one
                         // ignore cause we need column
                         a = row.Substring(0, i);
@@ -530,7 +531,7 @@ namespace PR_01
             {
                 
                 a = row.Substring(0, i);
-                Console.WriteLine($"al final hay : [{a}]");
+                //Console.WriteLine($"al final hay : [{a}]");
                 simbolos.Add(a);
 
 

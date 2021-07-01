@@ -317,7 +317,7 @@ namespace PR_01
         {
             if (produccion == "" || produccion == null)
             {
-                Console.WriteLine("La produccion a buscar es vacia o null");
+                //Console.WriteLine("La produccion a buscar es vacia o null");
                 return null;
             }
 
@@ -339,7 +339,7 @@ namespace PR_01
 
             if (myProd == null)
             {
-                Console.WriteLine($"No se encontro la produccion: {produccion}");
+                //Console.WriteLine($"No se encontro la produccion: {produccion}");
 
             }
             return myProd;
@@ -348,7 +348,7 @@ namespace PR_01
         {
             if (produccion == "" || produccion == null)
             {
-                Console.WriteLine("La produccion a buscar es vacia o null");
+                //Console.WriteLine("La produccion a buscar es vacia o null");
                 return null;
             }
 
@@ -365,7 +365,7 @@ namespace PR_01
                         if (s == produccion)//&& p.Item1 != produccion)
                         {
                             prd.Add((p.Item1, ors));
-                            Console.WriteLine($"{p.Item1} =>" + "{" + String.Join(" , ", ors) + "}");
+                            //Console.WriteLine($"{p.Item1} =>" + "{" + String.Join(" , ", ors) + "}");
                         }
                     }
                 }
@@ -443,7 +443,7 @@ namespace PR_01
             }
             else
             {
-                Console.WriteLine("EL NOMBRE PROD DE FOLLOW ES MINUSCULA");
+                //Console.WriteLine("EL NOMBRE PROD DE FOLLOW ES MINUSCULA");
                 return null;
             }
         }
@@ -495,7 +495,7 @@ namespace PR_01
                             if (i == yn.Length)
                             {
                                 i--;
-                                Console.WriteLine($"i: {i}");
+                                //Console.WriteLine($"i: {i}");
                             }
                             temp.AddRange(primeros(yn[i]));
                             temp = temp.Distinct().ToList();
@@ -509,11 +509,12 @@ namespace PR_01
 
                     }
                 }
+                temp = temp.Distinct().ToList();
                 return temp;
             }
             else
             {
-                Console.WriteLine($"EL NOMBRE ES MINUSCULA: {nombreProd}");
+                //Console.WriteLine($"EL NOMBRE ES MINUSCULA: {nombreProd}");
                 if (nombreProd == "")
                 {
                     temp.Add("");
@@ -537,7 +538,7 @@ namespace PR_01
 
         public static int encontrarEstadoconEstado(List<List<(string, List<string>, int)>> estados, List<(string, List<string>, int)> new_estado)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
+            //Console.ForegroundColor = ConsoleColor.Red;
 
             for (int j = 0; j < estados.Count; j++)
             {
@@ -572,7 +573,7 @@ namespace PR_01
 
             }
 
-            Console.ForegroundColor = ConsoleColor.White;
+            //Console.ForegroundColor = ConsoleColor.White;
             return -2;
         }
 
@@ -587,12 +588,12 @@ namespace PR_01
         public static void imprimirEstado(List<(string, List<string>, int)> estado)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("## new estado");
+            //Console.WriteLine("## new estado");
             foreach (var e in estado)
             {
                 imprimirproduccion(e);
             }
-            Console.WriteLine("## fin ");
+            //Console.WriteLine("## fin ");
             Console.ForegroundColor = ConsoleColor.White;
         }
         public static void imprimirEstados(List<List<(string, List<string>, int)>> estados)
@@ -920,6 +921,9 @@ namespace PR_01
             //imprimirEstados(estados);
             //Console.ForegroundColor = ConsoleColor.White;
 
+
+            
+
             return (caminos, estados);
         }
 
@@ -927,16 +931,16 @@ namespace PR_01
         public static (bool, List<(int, string)>, List<(int, string)>) procesarCadena(string c, List<List<(string, string)>> a)
         {
 
-            
-          
+
+
 
             //Console.WriteLine("IMPRIMIENTO LOS CAMINOS");
-            //for (int indice = 0; indice < a.Count; indice ++)
+            //for (int indice = 0; indice < a.Count; indice++)
             //{
 
             //    Console.WriteLine($"[{indice}]  = [" + String.Join(",", a[indice]) + "]");
             //}
-          
+
 
 
             Stack<string> pila = new Stack<string>();
@@ -968,14 +972,14 @@ namespace PR_01
             {
 
                 string s = pila.First();
-                Console.WriteLine($"elemento de la pila : {s}");
-                Console.WriteLine($"elemento de la cadena : {b}");
+                //Console.WriteLine($"elemento de la pila : {s}");
+                //Console.WriteLine($"elemento de la cadena : {b}");
                 devuelve = Accion(s, b, a); //Primera produccion y primera palabra de mi cadena
-                Console.WriteLine($"devuelve despues de Accion : {devuelve}");
+                //Console.WriteLine($"devuelve despues de Accion : {devuelve}");
 
                 if (devuelve == null)
                 {
-                    Console.WriteLine("cadena erronea");
+                    //Console.WriteLine("cadena erronea");
                     break;
                 }
                 else if (devuelve.Contains("s"))
@@ -986,11 +990,11 @@ namespace PR_01
                     registro.Add((contador, b));
                     //contador++;
 
-                    Console.WriteLine("Contiene s");
+                    //Console.WriteLine("Contiene s");
                     devuelve = devuelve.Replace("s", string.Empty);//nos quedamos solo con el numero
                     pila.Push(devuelve);
                     estado = int.Parse(devuelve);
-                    Console.WriteLine($"Push de devuelve: {devuelve}");
+                   // Console.WriteLine($"Push de devuelve: {devuelve}");
                     i++;
                     b = cadena[i];
 
@@ -998,7 +1002,7 @@ namespace PR_01
                 }
                 else if (devuelve.Contains("r")) //reduce
                 {
-                    Console.WriteLine("Contiene r");
+                    //Console.WriteLine("Contiene r");
                     devuelve = devuelve.Replace("r", string.Empty);//nos quedamos solo con el numero
 
                     string conexion = gramatica[int.Parse(devuelve) - 1].Item1;
@@ -1006,15 +1010,15 @@ namespace PR_01
 
                     //pendientes.Add(conexion);
                     List<(int, string)> subPendientes = new List<(int, string)>();
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    //Console.ForegroundColor = ConsoleColor.Red;
                     foreach (var pe in pendientes)
                     {
-                        Console.WriteLine("pendiendtes: " + pe.Item1 + "," + pe.Item2);
+                        //Console.WriteLine("pendiendtes: " + pe.Item1 + "," + pe.Item2);
                     }
                     for (int j = debe.Count - 1; j > -1; j--)
                     {
                         int aux = pendientes.Count - debe.Count;
-                        Console.WriteLine("debe[j]: " + debe[j]);
+                        //Console.WriteLine("debe[j]: " + debe[j]);
                         if (pendientes[j + aux].Item2 == debe[j])
                         {
 
@@ -1029,27 +1033,27 @@ namespace PR_01
                     pendientes.RemoveRange(pendientes.Count - subPendientes.Count, subPendientes.Count);
 
                     contador++;
-                    Console.WriteLine("contador: " + contador);
+                    //Console.WriteLine("contador: " + contador);
                     pendientes.Add((contador, conexion));
                     registro.Add((contador, conexion));
-                    Console.WriteLine("conexion: " + conexion);
+                    //Console.WriteLine("conexion: " + conexion);
                     foreach (var graf in subPendientes)
                     {
-                        Console.WriteLine("graf.Item2: " + graf.Item2);
+                        //Console.WriteLine("graf.Item2: " + graf.Item2);
                         grafo.Add((contador, graf.Item1.ToString()));
                     }
                     //contador++;
 
-                    Console.ForegroundColor = ConsoleColor.White;
+                    //Console.ForegroundColor = ConsoleColor.White;
 
                     for (int j = 0; j < gramatica[int.Parse(devuelve) - 1].Item2.Count; j++)
                     {
                         pila.Pop();
                     }
                     string p = pila.First();
-                    Console.WriteLine("p : " + p);
+                    //Console.WriteLine("p : " + p);
                     string A = gramatica[int.Parse(devuelve) - 1].Item1;
-                    Console.WriteLine("A : " + A);
+                    //Console.WriteLine("A : " + A);
                     estado = int.Parse(p);
                     pila.Push(Accion(p, A, a));
 
@@ -1062,7 +1066,7 @@ namespace PR_01
 
                     //Devuelve el arbol
 
-                    Console.WriteLine("Estado de Aceptacion");
+                    //Console.WriteLine("Estado de Aceptacion");
                     aceptado = true;
                     break;
                 }
@@ -1088,7 +1092,7 @@ namespace PR_01
             index = revisar.FindIndex(T => T.Item1 == m);
             if (!(index == -1))
             {
-                Console.WriteLine($"Index : {index}");
+                //Console.WriteLine($"Index : {index}");
                 return revisar[index].Item2;
             }
 
@@ -1096,7 +1100,26 @@ namespace PR_01
 
         }
 
+        public static void printPrimerosSiguientes()
+        {
+            List<string> primeros1 = new List<string>();
+            List<string> siguientes2 = new List<string>();
 
+            foreach (var a in gramatica1)
+            {
+                primeros1.Add($"\n   Primeros({a.Item1}) : " + "{ " + String.Join(" , ", primeros(a.Item1)) + " }");
+                siguientes2.Add($"\n   Siguientes({a.Item1}) : " + "{ " + String.Join(" , ", siguientes(a.Item1)) + " }");
+            }
+
+            string A = "PRIMEROS:\n{" + string.Join(" , ", primeros1) + "\n}\n";
+            string B = "SIGUIENTES:\n{" + string.Join(" , ", siguientes2) + "\n}\n";
+
+            Console.WriteLine(A + B);
+
+
+
+
+        }
 
 
     }
