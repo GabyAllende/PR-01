@@ -19,6 +19,17 @@ namespace PR_01
 
         private Tablas tabla = new Tablas();
         private Metodos metodos = new Metodos();
+        //private MetodosSintactico metodosS = new MetodosSintactico();
+
+
+
+        List<List<(string, List<string>, int)>> estados { get; set; }
+
+        
+
+        List<List<(string, string)>> caminos { get; set; }
+
+
 
         public Notepad(string filename)
         {
@@ -27,6 +38,10 @@ namespace PR_01
             InitializeComponent();
             rtxt_codigo.Lines = contents;
             lb_numbers.Font = new Font(rtxt_codigo.Font.FontFamily, rtxt_codigo.Font.Size);
+
+            //primero crear el automata y los caminos
+            (caminos, estados) = MetodosSintactico.automataSLR(MetodosSintactico.terminales, MetodosSintactico.Noterminales, MetodosSintactico.gramatica2 );
+            
             updateNumberLabel();
         }
 
@@ -118,40 +133,38 @@ namespace PR_01
 
         private void btn_run_Click(object sender, EventArgs e)
         {
+            
+
+
+
+
             tabla.Simbolos.Clear();
             int cont = 0;
+
+            List<string> words = new List<string>();
+
+
             for (int i = 0; i < contents.Length; i++)
             {
-                //string[] temp = contents[i].Split(' ');
-                string[] temp2 = metodos.SepararLineas(contents[i]);
+                
+                //string[] temp2 = metodos.SepararLineas(contents[i]);
                 string[] temp = metodos.charByChar2(contents[i]);
                 Console.WriteLine($"Fila {i+1}:");
                 Console.WriteLine("VERSION ANDY: [{0}]", string.Join(",", temp));
-                Console.WriteLine("VERSION GABY-TEFF: [{0}]", string.Join(",", temp2));
-                //if (string.IsNullOrEmpty(contents[i]) || contents[i] == string.Empty || contents[i] == null || contents[i] == "\n" || contents[i] == "\n\r")
-                //{
-                //    Console.WriteLine($"La fila {i + 1} es SALTO DE LINEA");
-                //    cont += 1;
-                //}
+                //Console.WriteLine("VERSION GABY-TEFF: [{0}]", string.Join(",", temp2));
 
-                //if (contents[i].Contains("\t")) 
-                //{
-                //    Console.WriteLine($"La fila {i + 1} es TAB");
-                //    cont += 1;
-                //}
+                List<string> aux = temp.ToList();
+                aux.RemoveAll(item => item == "\t" || item.Equals("") || item.Equals("\n"));
+
+                words.AddRange(aux);
 
                 for (int j = 0; j < temp.Length; j++)
                 {
 
-                    //if (temp[j] == "\t")
-                    //{
-                    //    Console.WriteLine("ESSS TAB ");
-                    
-                    //}
+                   
 
                     if (!string.IsNullOrEmpty(temp[j]) && !string.IsNullOrWhiteSpace(temp[j]))
-                    //if (temp[j] != "$")
-                    //if(temp[j]!= "")
+         
                     {
                         if (tabla.Reservadas.Contains(temp[j]))
                         {
@@ -282,7 +295,7 @@ namespace PR_01
                     if (temp[j] == "\t")
                     {
                         Console.WriteLine("ESSS TAB ");
-                        //cont += ;
+                       
 
                     }
                     else
@@ -295,7 +308,35 @@ namespace PR_01
 
                 }
 
+
+
+
+              
                 cont += 1;
+
+
+
+
+
+                
+
+
+
+
+
+            }
+
+            string megaString = String.Join(" ", words);
+            (bool, List<(int, string)>, List<(int, string)>) respuesta = MetodosSintactico.procesarCadena(megaString, caminos);
+
+            if (respuesta.Item1)
+            {
+                Console.WriteLine("ESTAAA CORRRECTO");
+
+            }
+            else 
+            {
+                Console.WriteLine("ESTAAA MAAL");
             }
 
             txt_simbolos.Lines = tabla.StringArraySimbolos();
