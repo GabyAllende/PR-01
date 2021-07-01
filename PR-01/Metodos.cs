@@ -104,6 +104,15 @@ namespace PR_01
 
 
         }
+        public bool validarBoom(string palabra)
+        {
+            var regex = @"\b(true|false)\b";
+            var match = Regex.Match(palabra, regex, RegexOptions.IgnoreCase);
+
+            return match.Success;
+
+
+        }
         public bool validarOperadorMatematico(string palabra)
         {
             var regex = @"^[+|\-|*|%|\\]$";

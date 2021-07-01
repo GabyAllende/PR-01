@@ -451,20 +451,20 @@ namespace PR_01
                                         }
                                     }
                                 }
-                                else if ((temp[j] == "true" || temp[j] == "false"))
+                                else if (metodos.validarBoom(temp[j]))
                                 {
                                     //validadcion bool
                                     tabla.Simbolos.Add(
                                    new Simbolo()
                                    {
-                                       Token = temp[j],
+                                       Token = "val_boom",
                                        Lexema = temp[j],
                                        Fila = i + 1,
                                        Columna = j + 1
                                    }
 
                                    );
-                                    words.Add(temp[j]);
+                                    words.Add("val_boom");
 
                                     if (asignacion)
                                     {
@@ -527,7 +527,8 @@ namespace PR_01
                                     }
                                     else
                                     {
-                                        words.Add("identificador");
+                                        
+                                        //words.Add(temp[j]);
                                         // si es estas en proceso de declaracion
                                         if (declaracion)
                                         {
@@ -537,6 +538,17 @@ namespace PR_01
                                             pendientes.Add(intermedio);
                                             Console.WriteLine("AGREGADO A PENDIENTES");
 
+                                            Console.ForegroundColor = ConsoleColor.Cyan;
+                                            Console.WriteLine("Imprimiento");
+                                            foreach (var it in pendientes)
+                                            {
+                                                Console.WriteLine($"[{it.Item1}  - {it.Item2}  - {it.Item3}]");
+                                            }
+                                            Console.ForegroundColor = ConsoleColor.White;
+
+
+
+                                            words.Add("identificador");
 
                                         }
                                         else if (asignacion)
@@ -575,7 +587,36 @@ namespace PR_01
                                             }
                                             else 
                                             {
-                                            
+
+                                               
+                                                string aux2 = "";
+                                                switch (respuestas[0].Item1)
+                                                {
+                                                    case "zap":
+                                                        aux2 = "num_entero";
+                                                        break;
+                                                    case "crash":
+                                                        aux2 = "val_crash";
+                                                        break;
+                                                    case "boom":
+                                                        aux2 = "val_boom";
+                                                        break;
+                                                    case "sting":
+                                                        aux2 = "val_sting";
+                                                        break;
+                                                    case "smash":
+                                                        aux2 = "num_real";
+                                                        break;
+                                                    default:
+                                                        aux2 = "identificador";
+                                                        break;
+
+                                                }
+
+                                                words.Add(aux2);
+
+
+
                                                 //int index = pendientes.FindIndex(item => item.Item2 == reserva);
                                                 int index = metodos.buscarindexItem2(pendientes, reserva);
                                                 
@@ -597,31 +638,65 @@ namespace PR_01
                                         else
                                         {
                                             //buscamos en pendientes 
-                                            List<(string, string, string)> answer = metodos.buscarItem2(pendientes, temp[j]);
+                                            List<(string, string, string)> respuestas = metodos.buscarItem2(pendientes, temp[j]);
                                             //List<(string, string, string)> answer = pendientes.FindAll(item => item.Item2 == temp[j]);
                                             //si hay mas de uno, no funciona
-                                            if (answer.Count > 1)
+                                            if (respuestas.Count > 1)
                                             {
-                                                Console.WriteLine("HAY UNA DOBLE DECLARACION");
 
-                                                rtxt_codigo.Select(cont, temp[j].Length);
-                                                rtxt_codigo.SelectionColor = Color.Blue;
-                                                break;
-                                            }
-                                            else if (answer.Count == 0)
-                                            {
-                                                // si no existe, error no declarado
+                                                Console.WriteLine("Doble asignacion");
 
-                                                Console.WriteLine("NO DECLARADA LA VARIABLE");
 
                                                 rtxt_codigo.Select(cont, temp[j].Length);
                                                 rtxt_codigo.SelectionColor = Color.Blue;
                                                 break;
 
                                             }
+                                            else if (respuestas.Count == 0)
+                                            {//si existe
+                                                Console.WriteLine("No existe");
 
+                                                rtxt_codigo.Select(cont, temp[j].Length);
+                                                rtxt_codigo.SelectionColor = Color.Blue;
+                                                break;
+                                            }
+                                            else if (respuestas[0].Item3 == null)
+                                            {
+                                                Console.WriteLine("NO esta asignando");
+
+                                                //rtxt_codigo.Select(cont, temp[j].Length);
+                                                //rtxt_codigo.SelectionColor = Color.Blue;
+                                                //break;
+                                                words.Add("identificador");
+                                                reserva = temp[j];
+                                            }
                                             else
                                             {
+                                                string aux2 = "";
+                                                switch (respuestas[0].Item1)
+                                                {
+                                                    case "zap":
+                                                        aux2 = "num_entero";
+                                                        break;
+                                                    case "crash":
+                                                        aux2 = "val_crash";
+                                                        break;
+                                                    case "boom":
+                                                        aux2 = "val_boom";
+                                                        break;
+                                                    case "sting":
+                                                        aux2 = "val_sting";
+                                                        break;
+                                                    case "smash":
+                                                        aux2 = "num_real";
+                                                        break;
+                                                    default:
+                                                        aux2 = "identificador";
+                                                        break;
+
+                                                }
+
+                                                words.Add(aux2);
 
                                                 reserva = temp[j];
 
@@ -699,6 +774,9 @@ namespace PR_01
 
             }
 
+
+
+
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Imprimiento");
             foreach (var it in pendientes)
@@ -707,8 +785,51 @@ namespace PR_01
             }
             Console.ForegroundColor = ConsoleColor.White;
 
+            Console.WriteLine("VERSION WORDS ANTES: [{0}]", string.Join(",", words));
 
-            Console.WriteLine("VERSION REEMPLAZO: [{0}]", string.Join(",", words));
+
+            //for (int i = 0; i < words.Count; i++)
+            //{
+            //    //(string, string, string) aux = new(string, string, string);
+            //    if (!MetodosSintactico.terminales.Contains(words[i]))
+            //    {
+            //        //es varaible
+            //        List<(string, string, string)> aux = metodos.buscarItem2(pendientes, words[i]);
+            //        string aux2 = "";
+            //        switch (aux[0].Item1) 
+            //        {
+            //            case "zap":
+            //                aux2 = "num_entero";
+            //                break;
+            //            case "crash":
+            //                aux2 = "val_crash";
+            //                break;
+            //            case "boom":
+            //                aux2 = "val_boom";
+            //                break;
+            //            case "sting":
+            //                aux2 = "val_sting";
+            //                break;
+            //            case "smash":
+            //                aux2 = "num_real";
+            //                break;
+            //            default:
+            //                aux2 = "identificador";
+            //                break;
+
+            //        }
+            //        words[i] = aux2;
+
+
+
+
+            //    }
+            
+            //}
+
+
+
+            Console.WriteLine("VERSION R: [{0}]", string.Join(",", words));
 
 
             string megaString = String.Join(" ", words);
