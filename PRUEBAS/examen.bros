@@ -1,2 +1,8 @@
-begin
+begin 
+zap a ; 
+zap b ;
+zap c ; e
+a -> "hello"; 
+b -> 2 ; 
+c -> a + b ; e
 end
