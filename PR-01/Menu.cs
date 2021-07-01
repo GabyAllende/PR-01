@@ -23,6 +23,7 @@ namespace PR_01
             DialogResult locRes = loader.ShowDialog();
             if (locRes == DialogResult.OK)
                 load(loader.FileName);
+            this.Close();
         }
         private void load(string file)
         {
@@ -30,9 +31,10 @@ namespace PR_01
             {
 
                 Console.WriteLine(file);
-                Form1 myForm1 = new Form1(file);
+                Notepad myForm1 = new Notepad(file);
                 myForm1.ShowDialog();
                 
+
             }
             else
                 MessageBox.Show("Unrecognized File");
@@ -48,8 +50,9 @@ namespace PR_01
                 file = saver.FileName + ".bros";
                 string[] temp = { "" }; 
                 System.IO.File.WriteAllLines(file, temp);
-                Form1 myForm1 = new Form1(file);
+                Notepad myForm1 = new Notepad(file);
                 myForm1.ShowDialog();
+                this.Close();
             }
                 
            
