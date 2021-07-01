@@ -915,10 +915,10 @@ namespace PR_01
 
             }
 
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Imprimiendo estados ");
-            imprimirEstados(estados);
-            Console.ForegroundColor = ConsoleColor.White;
+            //Console.ForegroundColor = ConsoleColor.Yellow;
+            //Console.WriteLine("Imprimiendo estados ");
+            //imprimirEstados(estados);
+            //Console.ForegroundColor = ConsoleColor.White;
 
             return (caminos, estados);
         }

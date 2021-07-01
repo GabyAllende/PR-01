@@ -133,9 +133,10 @@ namespace PR_01
 
         private void btn_run_Click(object sender, EventArgs e)
         {
-            
 
 
+            rtxt_codigo.Select(0, rtxt_codigo.Text.Length);
+            rtxt_codigo.SelectionColor = Color.White;
 
 
             tabla.Simbolos.Clear();
@@ -270,6 +271,20 @@ namespace PR_01
                                         else
                                         {
                                             Console.WriteLine("ERROR DE TIPO");
+
+                                            rtxt_codigo.Select(cont, temp[j].Length);
+                                            rtxt_codigo.SelectionColor = Color.Blue;
+                                            if (temp[j] == "\t")
+                                            {
+                                                Console.WriteLine("ESSS TAB ");
+
+
+                                            }
+                                            else
+                                            {
+                                                cont += temp[j].Length;
+                                            }
+                                            break;
                                         }
 
 
@@ -309,6 +324,19 @@ namespace PR_01
                                         else
                                         {
                                             Console.WriteLine("ERROR DE TIPO");
+                                            rtxt_codigo.Select(cont, temp[j].Length);
+                                            rtxt_codigo.SelectionColor = Color.Blue;
+                                            if (temp[j] == "\t")
+                                            {
+                                                Console.WriteLine("ESSS TAB ");
+
+
+                                            }
+                                            else
+                                            {
+                                                cont += temp[j].Length;
+                                            }
+                                            break;
                                         }
 
 
@@ -348,6 +376,24 @@ namespace PR_01
                                         else
                                         {
                                             Console.WriteLine("ERROR DE TIPO");
+                                       
+                                           // rtxt_codigo.Select(cont, temp[j].Length);
+                                            //rtxt_codigo.SelectionColor = Color.OrangeRed;
+                                            rtxt_codigo.Select(cont, temp[j].Length);
+                                            rtxt_codigo.SelectionColor = Color.Blue;
+                                            //MessageBox.Show("error en linea"+i+1 ,"informacion", MessageBoxButtons.OK);
+                                            if (temp[j] == "\t")
+                                            {
+                                                Console.WriteLine("ESSS TAB ");
+
+
+                                            }
+                                            else
+                                            {
+                                                cont += temp[j].Length;
+                                            }
+
+                                            break;
 
                                         }
 
@@ -386,6 +432,22 @@ namespace PR_01
                                         {
                                             Console.WriteLine("ERROR DE TIPO");
 
+                                           
+                                            rtxt_codigo.Select(cont, temp[j].Length);
+                                            rtxt_codigo.SelectionColor = Color.Blue;
+                                            if (temp[j] == "\t")
+                                            {
+                                                Console.WriteLine("ESSS TAB ");
+
+
+                                            }
+                                            else
+                                            {
+                                                cont += temp[j].Length;
+                                            }
+
+                                            break;
+
                                         }
                                     }
                                 }
@@ -422,8 +484,22 @@ namespace PR_01
                                         else
                                         {
                                             Console.WriteLine("ERROR DE TIPO");
-                                            rtxt_codigo.Select(cont, contents[i].Length);
-                                            rtxt_codigo.SelectionColor = Color.Red;
+                                            //rtxt_codigo.Select(cont, contents[i].Length);
+                                            //rtxt_codigo.SelectionColor = Color.OrangeRed;
+
+                                            rtxt_codigo.Select(cont, temp[j].Length);
+                                            rtxt_codigo.SelectionColor = Color.Blue;
+                                            if (temp[j] == "\t")
+                                            {
+                                                Console.WriteLine("ESSS TAB ");
+
+
+                                            }
+                                            else
+                                            {
+                                                cont += temp[j].Length;
+                                            }
+
                                             break;
                                         }
                                     }
@@ -459,7 +535,7 @@ namespace PR_01
                                             intermedio.Item2 = temp[j];
                                             declaracion = false;
                                             pendientes.Add(intermedio);
-                                            declaracion = true;
+                                            Console.WriteLine("AGREGADO A PENDIENTES");
 
 
                                         }
@@ -501,15 +577,8 @@ namespace PR_01
                                                     pendiente = null;
 
                                                 
-
                                             }
                                             
-                                            
-                                            
-                                            
-                                            
-                                            
-
                                         }
                                         else
                                         {
@@ -528,7 +597,6 @@ namespace PR_01
 
                                                 Console.WriteLine("NO DECLARADA LA VARIABLE");
 
-
                                             }
 
                                             else
@@ -538,7 +606,6 @@ namespace PR_01
 
 
                                             }
-
 
 
 
@@ -612,7 +679,7 @@ namespace PR_01
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Imprimiento");
-            foreach (var it in pendientes  ) 
+            foreach (var it in pendientes)
             {
                 Console.WriteLine($"[{it.Item1}  - {it.Item2}  - {it.Item3}]");
             }
@@ -630,7 +697,7 @@ namespace PR_01
                 Console.WriteLine("ESTAAA CORRRECTO");
 
             }
-            else 
+            else
             {
                 Console.WriteLine("ESTAAA MAAL");
             }
@@ -639,7 +706,7 @@ namespace PR_01
             //foreach (var item in respuesta.Item2)
             //{
             //    Console.WriteLine($"[{item.Item1} - {item.Item2}]");
-            
+
             //}
 
             //Console.WriteLine("IMPRIMIENDO EQUIVALENCIAS");
@@ -651,6 +718,6 @@ namespace PR_01
 
 
             txt_simbolos.Lines = tabla.StringArraySimbolos();
-        }
+            }
     }
 }
