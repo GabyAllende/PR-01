@@ -86,7 +86,7 @@ namespace PR_01
 
 
 
-        public static bool validarReservada(string palabra)
+        public bool validarReservada(string palabra)
         {
 
             var regex = @"\b(begin|end|zap|smash|sting|boom|crash|if|else|wham|fush|waw|puerta|break|default|and|or|xor|not)\b";
@@ -95,7 +95,7 @@ namespace PR_01
             return match.Success;
         }
 
-        public static bool validarTipo(string palabra)
+        public bool validarTipo(string palabra)
         {
             var regex = @"\b(zap|smash|sting|boom|crash)\b";
             var match = Regex.Match(palabra, regex, RegexOptions.IgnoreCase);
@@ -104,7 +104,7 @@ namespace PR_01
 
 
         }
-        public static bool validarOperadorMatematico(string palabra)
+        public bool validarOperadorMatematico(string palabra)
         {
             var regex = @"^[+|\-|*|%|\\]$";
 
@@ -124,7 +124,56 @@ namespace PR_01
         }
 
 
+        public List<(string, string, string)> buscarItem2(List<(string, string, string)> pendiente , string item)
+        {
+            List<(string, string, string)> answer = new List<(string, string, string)>();
+            if (pendiente != null)
+            {
+                foreach (var obj in pendiente)
+                {
+                    if (obj.Item2 != null)
+                    {
+                        if (obj.Item2 == item)
+                        {
+                            answer.Add(obj);
 
+                        }
+
+                    }
+                }
+
+            }
+            
+            return answer;
+
+        }
+
+        public int buscarindexItem2(List<(string, string, string)> pendiente, string item)
+        {
+            //List<(string, string, string)> answer = new List<(string, string, string)>();
+            //List<int> answer = new List<int>();
+            if (pendiente != null)
+            {
+                for (int i = 0; i < pendiente.Count; i++)
+                //foreach (var obj in pendiente)
+                {
+                    if (pendiente[i].Item2 != null)
+                    {
+                        if (pendiente[i].Item2 == item)
+                        {
+                            return i;
+
+                        }
+
+                    }
+                }
+
+
+            }
+            
+            return -1;
+
+        }
 
         public string[] SepararLineas(string linea)
         {

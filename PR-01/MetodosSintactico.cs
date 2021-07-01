@@ -930,12 +930,12 @@ namespace PR_01
             
           
 
-            Console.WriteLine("IMPRIMIENTO LOS CAMINOS");
-            for (int indice = 0; indice < a.Count; indice ++)
-            {
+            //Console.WriteLine("IMPRIMIENTO LOS CAMINOS");
+            //for (int indice = 0; indice < a.Count; indice ++)
+            //{
 
-                Console.WriteLine($"[{indice}]  = [" + String.Join(",", a[indice]) + "]");
-            }
+            //    Console.WriteLine($"[{indice}]  = [" + String.Join(",", a[indice]) + "]");
+            //}
           
 
 

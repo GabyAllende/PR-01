@@ -143,7 +143,7 @@ namespace PR_01
 
             List<string> words = new List<string>();
 
-
+            List<(string, string, string)> pendientes = new List<(string, string, string)>();
             for (int i = 0; i < contents.Length; i++)
             {
                 
@@ -157,6 +157,14 @@ namespace PR_01
                 aux.RemoveAll(item => item == "\t" || item.Equals("") || item.Equals("\n"));
 
                 //words.AddRange(aux);
+
+                
+                string pendiente = null;
+                bool declaracion = false;
+                bool asignacion = false;
+
+
+                (string, string, string) intermedio = (null, null, null);
 
                 for (int j = 0; j < temp.Length; j++)
                 {
@@ -179,6 +187,18 @@ namespace PR_01
 
                                 );
                             words.Add(temp[j]);
+
+                            // si es palabra de tipo
+                            if(metodos.validarTipo(temp[j]))
+                            {
+                                intermedio.Item1 = temp[j];
+
+                                
+                                declaracion = true;
+                            }
+
+
+
                             rtxt_codigo.Select(cont, temp[j].Length);
                             rtxt_codigo.SelectionColor = Color.SpringGreen;
 
@@ -201,7 +221,21 @@ namespace PR_01
                                     }
 
                                     );
+
                                     words.Add(temp[j]);
+
+                                    if (pendiente != null)
+                                    {
+                                        //solo me interesa para asignar
+                                        if (temp[j] == "->") { asignacion = true; }
+
+                                        else { pendientes = null; }
+                                    }
+
+
+
+
+
                                 }
                                 else if (metodos.validarNumerosEnteros(temp[j]))
                                 {
@@ -217,6 +251,31 @@ namespace PR_01
                                     );
                                     words.Add("num_entero");
 
+                                    if (asignacion)
+                                    {
+                                        //int index = pendientes.FindIndex(item => item.Item2 == pendiente);
+                                        int index = metodos.buscarindexItem2(pendientes, pendiente);
+                                        //revisar luego
+                                        (string, string, string) auxiliar = (pendientes[index].Item1, pendientes[index].Item2, temp[j]);
+                                        if (auxiliar.Item1 == "zap")
+                                        {
+
+                                            pendientes.RemoveAt(index);
+                                            pendientes.Add(auxiliar);
+                                            asignacion = false;
+                                            pendiente = null;
+
+
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("ERROR DE TIPO");
+                                        }
+
+
+
+                                    }
+
                                 }
                                 else if (metodos.validarNumerosDecimales(temp[j]))
                                 {
@@ -231,6 +290,31 @@ namespace PR_01
 
                                     );
                                     words.Add("num_real");
+
+
+                                    if (asignacion)
+                                    {
+                                        //int index = pendientes.FindIndex(item => item.Item2 == pendiente);
+                                        int index = metodos.buscarindexItem2(pendientes, pendiente);
+                                        //revisar luego
+                                        (string, string, string) auxiliar = (pendientes[index].Item1, pendientes[index].Item2, temp[j]);
+                                        if (auxiliar.Item1 == "smash")
+                                        {
+
+                                            pendientes.RemoveAt(index);
+                                            pendientes.Add(auxiliar);
+                                            asignacion = false;
+                                            pendiente = null;
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("ERROR DE TIPO");
+                                        }
+
+
+
+
+                                    }
                                 }
                                 else if (metodos.validarChar(temp[j]))
                                 {
@@ -246,6 +330,28 @@ namespace PR_01
                                     );
                                     words.Add("val_crash");
 
+                                    if (asignacion)
+                                    {
+                                        //int index = pendientes.FindIndex(item => item.Item2 == pendiente);
+                                        int index = metodos.buscarindexItem2(pendientes, pendiente);
+                                        //revisar luego
+                                        (string, string, string) auxiliar = (pendientes[index].Item1, pendientes[index].Item2, temp[j]);
+                                        if (auxiliar.Item1 == "crash")
+                                        {
+
+                                            pendientes.RemoveAt(index);
+                                            pendientes.Add(auxiliar);
+                                            asignacion = false;
+                                            pendiente = null;
+
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("ERROR DE TIPO");
+
+                                        }
+
+                                    }
                                 }
                                 else if (metodos.validarString(temp[j]))
                                 {
@@ -260,33 +366,189 @@ namespace PR_01
 
                                     );
                                     words.Add("val_sting");
+
+                                    if (asignacion)
+                                    {
+                                        //int index = pendientes.FindIndex(item => item.Item2 == pendiente);
+                                        int index = metodos.buscarindexItem2(pendientes, pendiente);
+                                        //revisar luego
+                                        (string, string, string) auxiliar = (pendientes[index].Item1, pendientes[index].Item2, temp[j]);
+                                        if (auxiliar.Item1 == "sting" )
+                                        {
+
+                                            pendientes.RemoveAt(index);
+                                            pendientes.Add(auxiliar);
+                                            asignacion = false;
+                                            pendiente = null;
+
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("ERROR DE TIPO");
+
+                                        }
+                                    }
                                 }
+                                else if ((temp[j] == "true" || temp[j] == "false"))
+                                {
+                                    //validadcion bool
+                                    tabla.Simbolos.Add(
+                                   new Simbolo()
+                                   {
+                                       Token = temp[j],
+                                       Lexema = temp[j],
+                                       Fila = i + 1,
+                                       Columna = j + 1
+                                   }
+
+                                   );
+                                    words.Add(temp[j]);
+
+                                    if (asignacion)
+                                    {
+                                        //int index = pendientes.FindIndex(item => item.Item2 == pendiente);
+                                        int index = metodos.buscarindexItem2(pendientes,pendiente);
+                                        //revisar luego
+                                        (string, string, string) auxiliar = (pendientes[index].Item1, pendientes[index].Item2, temp[j]);
+                                        if (auxiliar.Item1 == "boom")
+                                        {
+
+                                            pendientes.RemoveAt(index);
+                                            pendientes.Add(auxiliar);
+                                            asignacion = false;
+                                            pendiente = null;
+
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("ERROR DE TIPO");
+                                            rtxt_codigo.Select(cont, contents[i].Length);
+                                            rtxt_codigo.SelectionColor = Color.Red;
+                                            break;
+                                        }
+                                    }
+
+
+
+                                }
+
                                 else
                                 {
-                                    
+
                                     tabla.Simbolos.Add(
-                                    new Simbolo()
-                                    {
-                                        Token = "identificador",
-                                        Lexema = temp[j],
-                                        Fila = i + 1,
-                                        Columna = j + 1
-                                    }
+                                        new Simbolo()
+                                        {
+                                            Token = "identificador",
+                                            Lexema = temp[j],
+                                            Fila = i + 1,
+                                            Columna = j + 1
+                                        }
 
                                     );
                                     if (temp[j] == "e")
                                     {
                                         words.Add("e");
                                     }
-                                    else 
+                                    else
                                     {
                                         words.Add("identificador");
-                                    }
-                                   
-                                }
+                                        // si es estas en proceso de declaracion
+                                        if (declaracion)
+                                        {
 
-                                rtxt_codigo.Select(cont, temp[j].Length);
-                                rtxt_codigo.SelectionColor = Color.Gold;
+                                            intermedio.Item2 = temp[j];
+                                            declaracion = false;
+                                            pendientes.Add(intermedio);
+                                            declaracion = true;
+
+
+                                        }
+                                        else if (asignacion)
+                                        {
+
+                                            //List<(string, string, string)> respuestas = pendientes.FindAll(item => item.Item2 == temp[j]);
+                                            List<(string, string, string)> respuestas = metodos.buscarItem2(pendientes, temp[j]);
+                                            //si es mas de uno
+                                            if (respuestas.Count > 1)
+                                            {
+                                                Console.WriteLine("Doble asignacion");
+
+                                            }
+                                            else if (respuestas.Count == 0)
+                                            {//si existe
+                                                Console.WriteLine("No existe");
+                                            }
+                                            else if (respuestas[0].Item3 == null)
+                                            {
+                                                Console.WriteLine("NO esta asignando");
+
+                                            }
+                                            else 
+                                            {
+                                            
+                                                //int index = pendientes.FindIndex(item => item.Item2 == pendiente);
+                                                int index = metodos.buscarindexItem2(pendientes, pendiente);
+                                                
+
+
+
+                                                //revisar luego
+                                                (string, string, string) auxiliar = (pendientes[index].Item1, pendientes[index].Item2, respuestas[0].Item3);
+                                                
+                                                    pendientes.RemoveAt(index);
+                                                    pendientes.Add(auxiliar);
+                                                    asignacion = false;
+                                                    pendiente = null;
+
+                                                
+
+                                            }
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+
+                                        }
+                                        else
+                                        {
+                                            //buscamos en pendientes 
+                                            List<(string, string, string)> answer = metodos.buscarItem2(pendientes, temp[j]);
+                                            //List<(string, string, string)> answer = pendientes.FindAll(item => item.Item2 == temp[j]);
+                                            //si hay mas de uno, no funciona
+                                            if (answer.Count > 1)
+                                            {
+                                                Console.WriteLine("HAY UNA DOBLE DECLARACION");
+
+                                            }
+                                            else if (answer.Count == 0)
+                                            {
+                                                // si no existe, error no declarado
+
+                                                Console.WriteLine("NO DECLARADA LA VARIABLE");
+
+
+                                            }
+
+                                            else
+                                            {
+
+                                                pendiente = temp[j];
+
+
+                                            }
+
+
+
+
+                                        }
+
+                                    }
+
+                                    rtxt_codigo.Select(cont, temp[j].Length);
+                                    rtxt_codigo.SelectionColor = Color.Gold;
+                                }
                             }
                             else
                             {
@@ -348,6 +610,15 @@ namespace PR_01
 
             }
 
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("Imprimiento");
+            foreach (var it in pendientes  ) 
+            {
+                Console.WriteLine($"[{it.Item1}  - {it.Item2}  - {it.Item3}]");
+            }
+            Console.ForegroundColor = ConsoleColor.White;
+
+
             Console.WriteLine("VERSION REEMPLAZO: [{0}]", string.Join(",", words));
 
 
@@ -364,19 +635,19 @@ namespace PR_01
                 Console.WriteLine("ESTAAA MAAL");
             }
 
-            Console.WriteLine("IMPRIMIENDO CAMINOOS");
-            foreach (var item in respuesta.Item2)
-            {
-                Console.WriteLine($"[{item.Item1} - {item.Item2}]");
+            //Console.WriteLine("IMPRIMIENDO CAMINOOS");
+            //foreach (var item in respuesta.Item2)
+            //{
+            //    Console.WriteLine($"[{item.Item1} - {item.Item2}]");
             
-            }
+            //}
 
-            Console.WriteLine("IMPRIMIENDO EQUIVALENCIAS");
-            foreach (var item in respuesta.Item3)
-            {
-                Console.WriteLine($"[{item.Item1} - {item.Item2}]");
+            //Console.WriteLine("IMPRIMIENDO EQUIVALENCIAS");
+            //foreach (var item in respuesta.Item3)
+            //{
+            //    Console.WriteLine($"[{item.Item1} - {item.Item2}]");
 
-            }
+            //}
 
 
             txt_simbolos.Lines = tabla.StringArraySimbolos();
