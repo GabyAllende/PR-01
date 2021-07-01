@@ -46,9 +46,17 @@ namespace PR_01
 
         }
 
-        public bool validarNumeros(string palabra)
+        public bool validarNumerosEnteros(string palabra)
         {
-            var regex = @"^\-?[0-9]*$|^\-?[0-9]*.[0-9][0-9]*$";
+            var regex = @"^\-?[0-9]*$";
+            var match = Regex.Match(palabra, regex, RegexOptions.IgnoreCase);
+
+            return match.Success;
+
+        }
+        public bool validarNumerosDecimales(string palabra)
+        {
+            var regex = @"^\-?[0-9]*.[0-9][0-9]*$";
             var match = Regex.Match(palabra, regex, RegexOptions.IgnoreCase);
 
             return match.Success;
@@ -74,6 +82,49 @@ namespace PR_01
         {
             throw new Exception("Aun ni implementaste este metodo bro xdxd");
         }
+
+
+
+
+        public static bool validarReservada(string palabra)
+        {
+
+            var regex = @"\b(begin|end|zap|smash|sting|boom|crash|if|else|wham|fush|waw|puerta|break|default|and|or|xor|not)\b";
+            var match = Regex.Match(palabra, regex, RegexOptions.IgnoreCase);
+
+            return match.Success;
+        }
+
+        public static bool validarTipo(string palabra)
+        {
+            var regex = @"\b(zap|smash|sting|boom|crash)\b";
+            var match = Regex.Match(palabra, regex, RegexOptions.IgnoreCase);
+
+            return match.Success;
+
+
+        }
+        public static bool validarOperadorMatematico(string palabra)
+        {
+            var regex = @"^[+|\-|*|%|\\]$";
+
+            var match = Regex.Match(palabra, regex, RegexOptions.IgnoreCase);
+
+            return match.Success;
+
+        }
+        public static bool validarOperadorBooleano(string palabra)
+        {
+            var regex = @"[\b(and|or|xor|not)\b|^[>|<|!|=]$|^<=$|^>=$|^->$]";
+            var match = Regex.Match(palabra, regex, RegexOptions.IgnoreCase);
+
+            return match.Success;
+
+
+        }
+
+
+
 
         public string[] SepararLineas(string linea)
         {

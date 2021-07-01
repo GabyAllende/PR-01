@@ -156,7 +156,7 @@ namespace PR_01
                 List<string> aux = temp.ToList();
                 aux.RemoveAll(item => item == "\t" || item.Equals("") || item.Equals("\n"));
 
-                words.AddRange(aux);
+                //words.AddRange(aux);
 
                 for (int j = 0; j < temp.Length; j++)
                 {
@@ -178,7 +178,7 @@ namespace PR_01
                                 }
 
                                 );
-
+                            words.Add(temp[j]);
                             rtxt_codigo.Select(cont, temp[j].Length);
                             rtxt_codigo.SelectionColor = Color.SpringGreen;
 
@@ -201,33 +201,50 @@ namespace PR_01
                                     }
 
                                     );
+                                    words.Add(temp[j]);
                                 }
-                                else if (metodos.validarNumeros(temp[j]))
+                                else if (metodos.validarNumerosEnteros(temp[j]))
                                 {
                                     tabla.Simbolos.Add(
                                     new Simbolo()
                                     {
-                                        Token = "Numeros",
+                                        Token = "num_entero",
                                         Lexema = temp[j],
                                         Fila = i + 1,
                                         Columna = j + 1
                                     }
 
                                     );
+                                    words.Add("num_entero");
 
+                                }
+                                else if (metodos.validarNumerosDecimales(temp[j]))
+                                {
+                                    tabla.Simbolos.Add(
+                                    new Simbolo()
+                                    {
+                                        Token = "num_real",
+                                        Lexema = temp[j],
+                                        Fila = i + 1,
+                                        Columna = j + 1
+                                    }
+
+                                    );
+                                    words.Add("num_real");
                                 }
                                 else if (metodos.validarChar(temp[j]))
                                 {
                                     tabla.Simbolos.Add(
                                     new Simbolo()
                                     {
-                                        Token = "Crash",
+                                        Token = "val_crash",
                                         Lexema = temp[j],
                                         Fila = i + 1,
                                         Columna = j + 1
                                     }
 
                                     );
+                                    words.Add("val_crash");
 
                                 }
                                 else if (metodos.validarString(temp[j]))
@@ -235,27 +252,37 @@ namespace PR_01
                                     tabla.Simbolos.Add(
                                     new Simbolo()
                                     {
-                                        Token = "Sting",
+                                        Token = "val_sting",
                                         Lexema = temp[j],
                                         Fila = i + 1,
                                         Columna = j + 1
                                     }
 
                                     );
-
+                                    words.Add("val_sting");
                                 }
                                 else
                                 {
+                                    
                                     tabla.Simbolos.Add(
                                     new Simbolo()
                                     {
-                                        Token = "Identificador",
+                                        Token = "identificador",
                                         Lexema = temp[j],
                                         Fila = i + 1,
                                         Columna = j + 1
                                     }
 
                                     );
+                                    if (temp[j] == "e")
+                                    {
+                                        words.Add("e");
+                                    }
+                                    else 
+                                    {
+                                        words.Add("identificador");
+                                    }
+                                   
                                 }
 
                                 rtxt_codigo.Select(cont, temp[j].Length);
@@ -263,10 +290,11 @@ namespace PR_01
                             }
                             else
                             {
+                                //ESS UN ERROR , CONSIDERAR LUEGO
                                 tabla.Simbolos.Add(
                                 new Simbolo()
                                 {
-                                    Token = "Identificador",
+                                    Token = "identificador",
                                     Lexema = temp[j],
                                     Fila = i + 1,
                                     Columna = j + 1,
@@ -274,6 +302,8 @@ namespace PR_01
                                 }
 
                                 );
+                                words.Add("#Error");
+
                                 rtxt_codigo.Select(cont, temp[j].Length);
                                 rtxt_codigo.SelectionColor = Color.Red;
                             }
@@ -309,8 +339,6 @@ namespace PR_01
                 }
 
 
-
-
               
                 cont += 1;
 
@@ -318,13 +346,10 @@ namespace PR_01
 
 
 
-                
-
-
-
-
-
             }
+
+            Console.WriteLine("VERSION REEMPLAZO: [{0}]", string.Join(",", words));
+
 
             string megaString = String.Join(" ", words);
             (bool, List<(int, string)>, List<(int, string)>) respuesta = MetodosSintactico.procesarCadena(megaString, caminos);
