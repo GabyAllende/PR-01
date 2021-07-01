@@ -339,6 +339,21 @@ namespace PR_01
                 Console.WriteLine("ESTAAA MAAL");
             }
 
+            Console.WriteLine("IMPRIMIENDO CAMINOOS");
+            foreach (var item in respuesta.Item2)
+            {
+                Console.WriteLine($"[{item.Item1} - {item.Item2}]");
+            
+            }
+
+            Console.WriteLine("IMPRIMIENDO EQUIVALENCIAS");
+            foreach (var item in respuesta.Item3)
+            {
+                Console.WriteLine($"[{item.Item1} - {item.Item2}]");
+
+            }
+
+
             txt_simbolos.Lines = tabla.StringArraySimbolos();
         }
     }

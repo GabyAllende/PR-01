@@ -1,14 +1,5 @@
 begin 
-zap puntuacion -> 0 ;
-fush [ zap i -> 0 ; i < 10 ; i -> i +1 ] 
-{
-         Muestra [ i ] ;
-         puntuacion -> i + puntuacion ;
-}
-	zap a = 1
-zap = = 5 ;
-sting = = "perrro" ; 
-"perrro"zap
-sting mapa  -> "hola" ; 
-  end  
+zap identificador ; e
+identificador -> num_entero ; e
+end  
 

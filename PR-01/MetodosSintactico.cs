@@ -61,7 +61,7 @@ namespace PR_01
             {
                 new string[] {"K"},
                 new string[] {"Q"},
-                new string[] {"BB"},
+               // new string[] {"BB"},
                 new string[] {"Y"},
                 new string[] {"R"}
             }),
@@ -78,7 +78,7 @@ namespace PR_01
             ("M", new string[][]
             {
                 new string[] {"O","N","O"},
-                new string[] {"M","W","M"},
+                //new string[] {"M","W","M"},
                 new string[] {"CC"}
             }),
             ("N", new string[][]
@@ -93,7 +93,9 @@ namespace PR_01
             ("O", new string[][]
             {
                 new string[] {"identificador"},
-                new string[] {"P"}
+                new string[] {"P"},
+                new string[] {"val_crash"},
+                new string[] {"val_sting"},
             }),
             ("P", new string[][]
             {
@@ -158,10 +160,10 @@ namespace PR_01
                 new string[] {"val_crash"},
                 new string[] {"val_sting"}
             }),
-            ("BB", new string[][]
-            {
-                new string[] {"fush","[","D","R",";","M",";","R","S","]","{","H","}"}
-            }),
+            //("BB", new string[][]
+            //{
+            //    new string[] {"fush","[","D","R",";","M",";","R","S","]","{","H","}"}
+            //}),
             ("CC", new string[][]
             {
                 new string[] {"true"},
@@ -212,14 +214,14 @@ namespace PR_01
            ("I", new List<string>(){"e"}),
            ("J", new List<string>(){"K"}),
            ("J", new List<string>(){"Q"}),
-           ("J", new List<string>(){"BB"}),
+           //("J", new List<string>(){"BB"}),
            ("J", new List<string>(){"Y"}),
            ("J", new List<string>(){"R"}),
            ("K", new List<string>(){"if","[","M","]","{","H","L"}),
            ("L", new List<string>(){"}"}),
            ("L", new List<string>(){"else","{","H","}"}),
            ("M", new List<string>(){"O","N","O"}),
-           ("M", new List<string>(){"M","W","M"}),
+          // ("M", new List<string>(){"M","W","M"}),
            ("M", new List<string>(){"CC"}),
            ("N", new List<string>(){"="}),
            ("N", new List<string>(){"<="}),
@@ -229,6 +231,8 @@ namespace PR_01
            ("N", new List<string>(){"!"}),
            ("O", new List<string>(){"identificador"}),
            ("O", new List<string>(){"P"}),
+           ("O", new List<string>(){"val_crash"}),
+           ("O", new List<string>(){"val_sting"}),
            ("P", new List<string>(){"num_entero"}),
            ("P", new List<string>(){"num_real"}),
            ("Q", new List<string>(){"wham", "[","M","]","{","H","}"}),
@@ -268,7 +272,7 @@ namespace PR_01
            ("AA", new List<string>(){"CC"}),
            ("AA", new List<string>(){"val_crash"}),
            ("AA", new List<string>(){"val_sting"}),
-           ("BB", new List<string>(){"fush","[","D","R",";","M",";","R","S","]","{","H","}"}),
+          // ("BB", new List<string>(){"fush","[","D","R",";","M",";","R","S","]","{","H","}"}),
            ("CC", new List<string>(){"true"}),
            ("CC", new List<string>(){"false"})
         };
@@ -595,10 +599,13 @@ namespace PR_01
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("IMPRMIENTOS ESTADOS:");
-            foreach (var estado in estados)
+            for (int i = 0; i < estados.Count; i++)
             {
-                imprimirEstado(estado);
+                Console.WriteLine($"Estado: [{i}]");
+                imprimirEstado(estados[i]);
+            
             }
+      
             Console.ForegroundColor = ConsoleColor.White;
         }
 
@@ -636,8 +643,9 @@ namespace PR_01
             {
 
                 string simbolo = res[i].Item2[res[i].Item3];
-                Console.WriteLine($"int i:{i}");
-                Console.WriteLine($"simbolo:{simbolo}");
+                //Console.WriteLine($"int i:{i}");
+                //Console.WriteLine($"simbolo:{simbolo}");
+                
                 //si no es terminal y ya no pase por el
                 if (noterminales.Contains(simbolo) && !added.Contains(simbolo))
                 {
@@ -672,17 +680,17 @@ namespace PR_01
 
 
 
-            Console.WriteLine("IMPRIMIENTO TABLABASE");
-            Console.WriteLine("[");
-            foreach (var ex in tablaBase)
-            {
-                Console.WriteLine($"( {ex.Item1} , [{String.Join(",", ex.Item2)}]) ,");
+            ////Console.WriteLine("IMPRIMIENTO TABLABASE");
+            //Console.WriteLine("[");
+            //foreach (var ex in tablaBase)
+            //{
+            //    Console.WriteLine($"( {ex.Item1} , [{String.Join(",", ex.Item2)}]) ,");
 
-            }
-            Console.WriteLine("  ]");
+            //}
+            //Console.WriteLine("  ]");
 
-            Console.WriteLine($"IMPRIMIENTO NO TERMINALES: [{String.Join(",", noterminales)}]");
-            Console.WriteLine($"IMPRIMIENTO TERMINALES: [{String.Join(",", terminales)}]");
+            //Console.WriteLine($"IMPRIMIENTO NO TERMINALES: [{String.Join(",", noterminales)}]");
+            //Console.WriteLine($"IMPRIMIENTO TERMINALES: [{String.Join(",", terminales)}]");
 
 
 
@@ -692,17 +700,17 @@ namespace PR_01
 
             List<(string, List<string>, int)> estadoInicial = primerEstado(tablaBase, noterminales);
 
-            Console.WriteLine("ÏMPRIMIENTO ESTADO INICIAL");
-            Console.WriteLine("[");
-            foreach (var ex in estadoInicial)
-            {
-                Console.WriteLine($"( {ex.Item1} , [{String.Join(",", ex.Item2)}] , {ex.Item3} ) ,");
+            //Console.WriteLine("ÏMPRIMIENTO ESTADO INICIAL");
+            //Console.WriteLine("[");
+            //foreach (var ex in estadoInicial)
+            //{
+            //    Console.WriteLine($"( {ex.Item1} , [{String.Join(",", ex.Item2)}] , {ex.Item3} ) ,");
 
-            }
-            Console.WriteLine("  ]");
+            //}
+            //Console.WriteLine("  ]");
 
             estados.Add(estadoInicial);
-            imprimirEstados(estados);
+            //imprimirEstados(estados);
 
 
             List<List<(string, string)>> caminos = new List<List<(string, string)>>();
@@ -713,9 +721,9 @@ namespace PR_01
             {
 
 
-                imprimirEstados(estados);
+                //imprimirEstados(estados);
 
-                Console.WriteLine($"ESTADO :[I{j}]");
+                //Console.WriteLine($"ESTADO :[I{j}]");
 
                 //ya pase por ese simbolo
                 List<string> added = new List<string>();
@@ -728,13 +736,13 @@ namespace PR_01
                 {
                     (string, string) miniCamino = ("", "");
 
-                    imprimirproduccion(prod);
+                    //imprimirproduccion(prod);
                     //Verificacion previa que no esta totalmente consumido
 
                     if (prod.Item2.Count == prod.Item3)
                     {
                         //consumido
-                        Console.WriteLine("Consumindo");
+                        //Console.WriteLine("Consumindo");
 
 
                         if (!noterminales.Contains(prod.Item1))
@@ -778,7 +786,7 @@ namespace PR_01
                         //considerar que este es un nuevo estado
                         string simboloParaRecorrer = prod.Item2[prod.Item3];
 
-                        Console.WriteLine($"SIMBOLO PARA RECORRER:[{simboloParaRecorrer}]");
+                        //Console.WriteLine($"SIMBOLO PARA RECORRER:[{simboloParaRecorrer}]");
 
                         //si no he ido por ese simbolo
                         if (!added.Contains(simboloParaRecorrer))
@@ -790,7 +798,7 @@ namespace PR_01
                             List<(string, List<string>, int)> prodRecorrer = findAllSimbolo(estados[j], simboloParaRecorrer);
 
 
-                            Console.WriteLine($"Para recorrer con: {simboloParaRecorrer} hay {prodRecorrer.Count} items");
+                            //Console.WriteLine($"Para recorrer con: {simboloParaRecorrer} hay {prodRecorrer.Count} items");
 
 
 
@@ -844,12 +852,12 @@ namespace PR_01
 
                             //analisis si existe un estado similar a estado Temporal
 
-                            Console.WriteLine("IMPRIMIENDO ESTADO A ENCONTRAAR:");
+                            //Console.WriteLine("IMPRIMIENDO ESTADO A ENCONTRAAR:");
 
                             int indice = encontrarEstadoconEstado(estados, estadoTemporal);
                             if (indice == -2)
                             {
-                                Console.WriteLine("NOO HAY IGUAL ESTADO");
+                                //Console.WriteLine("NOO HAY IGUAL ESTADO");
                                 //no existe
                                 estados.Add(estadoTemporal);
                                 //Console.WriteLine("====== beg");
@@ -877,7 +885,7 @@ namespace PR_01
                                 if (terminales.Contains(simboloParaRecorrer))
                                 {
 
-                                    Console.WriteLine("SI HAY IGUAL ESTADO");
+                                    //Console.WriteLine("SI HAY IGUAL ESTADO");
                                     miniCamino = (simboloParaRecorrer, "s" + indice.ToString());
                                     caminoIndividual.Add(miniCamino);
 
@@ -894,7 +902,7 @@ namespace PR_01
 
 
                         }
-                        else { Console.WriteLine("Ya se lo trato"); }
+                        //else { Console.WriteLine("Ya se lo trato"); }
 
 
                     }
@@ -907,12 +915,28 @@ namespace PR_01
 
             }
 
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Imprimiendo estados ");
+            imprimirEstados(estados);
+            Console.ForegroundColor = ConsoleColor.White;
 
             return (caminos, estados);
         }
 
+        /// a es caminos
         public static (bool, List<(int, string)>, List<(int, string)>) procesarCadena(string c, List<List<(string, string)>> a)
         {
+
+            
+          
+
+            Console.WriteLine("IMPRIMIENTO LOS CAMINOS");
+            for (int indice = 0; indice < a.Count; indice ++)
+            {
+
+                Console.WriteLine($"[{indice}]  = [" + String.Join(",", a[indice]) + "]");
+            }
+          
 
 
             Stack<string> pila = new Stack<string>();
